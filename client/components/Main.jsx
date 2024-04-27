@@ -6,13 +6,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/AdobeStock_678891736_Preview[axolotl].png'
-// import Header from './Header.jsx';
+import Header from './Header.jsx';
 import travelVideo from '../assets/AdobeStock_118726863_travel_Preview.mp4'
 
 const Main = () => {
     
     return(
        <>
+       <Header />
        <header className="flex flex-col items-center justify-center min-h-screen size-1 overflow-hidden">
                <video
                     autoPlay
@@ -35,7 +36,7 @@ const Main = () => {
                 <h1 style={{fontFamily:'poppins'}}>
                 Let us plan the trip of your dreams...
                 </h1> 
-                <Link to='/login' id='start'> Click here to begin your adventure!</Link>
+                <Link to='/form' id='start'> Click here to begin your adventure!</Link>
            </div>
            <div>
            {/* <button style={{fontFamily:'poppins'}} onClick= {loginPageClick}
