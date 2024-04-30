@@ -43,3 +43,5 @@ const ItineraryPage = () => {
 };
 
 export default ItineraryPage;
+
+//sends post request to server

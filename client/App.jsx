@@ -12,7 +12,7 @@ import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 import Form from './components/Form.jsx';
 import ItineraryPage from './components/ItineraryPage.jsx';
-
+import SuccessGit from './components/success.jsx';
 const App = () => {
     return(
         <BrowserRouter>
@@ -22,6 +22,7 @@ const App = () => {
             <Route path='/register' element={<Register />}/>
             <Route path='/form' element={<Form />}/>
             <Route path='/itinerary' element={<ItineraryPage />}/>
+            <Route path='/success' element={<SuccessGit />}/>
           </Routes>
         </BrowserRouter>
     );

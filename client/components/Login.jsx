@@ -67,6 +67,9 @@ const Login = () => {
     function logIn () {
         window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
     }
+    function registerGH() {
+        window.location.assign("")
+    }
 
    return(
     <div>
@@ -83,8 +86,12 @@ const Login = () => {
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Not 1234'/>
             </label>
             <br />
+            <button type='submit'>Login</button>
             <button onClick = {logIn}>
               Login Through Github
+            </button>
+            <button onClick = {registerGH}>
+              Register Through Github
             </button>
         </form>
     </div>

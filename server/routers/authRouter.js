@@ -34,4 +34,12 @@ authRouter
     (req, res) =>{ return res.status(200).json("Some custom message by ['/api/logout'] at POST."); }
   )
 
+  // LOGOUT
+  .post('/oauth',
+    (req, res, next) =>{ console.log("Welcome to the ['/oauth'] endpoint."); return next(); },
+    (req, res, next) => {console.log("our req.body ", req.body); return next();},
+    (req, res, next) =>{ console.log("Bye from the ['/auth/oauth'] endpoint."); return next(); },  
+    (req, res) =>{ return res.status(200).json("Some custom message by ['/api/oauth'] at POST."); }
+  )
+
 module.exports = authRouter;
