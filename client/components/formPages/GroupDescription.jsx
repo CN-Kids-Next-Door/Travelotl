@@ -48,7 +48,7 @@ const GroupDescription = () => {
             try {
                 console.log('data sent to backend server to make API request');
                 // Make fetch request with submitted data
-                const response = await fetch('/api/trip/build', {
+                const response = await fetch('/api/itnry/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

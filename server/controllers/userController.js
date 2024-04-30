@@ -25,7 +25,7 @@ const userController = {
 
 function generateToken (user) {
   const payload = {
-    userId: user.id,
+    username: user.username,
     email: user.email,
   };
 
@@ -112,6 +112,8 @@ userController.hashUsrPw = async (req, res, next) => {
 
 userController.registerUser = async (req, res, next) => {
 
+  console.log('here i am in registerd user');
+
     // DATAVAULT USED AS IT HAS HASHED PW
     const { email, username, password, firstName, lastName } = req.dataVault.userInfo;
 
@@ -144,34 +146,38 @@ userController.registerUser = async (req, res, next) => {
 
 userController.loginUser = async (req, res, next) => {
 
-  const { email, username, password } = req.dataVault.userInfo;
+  const { email, password } = req.body.userInfo;
 
   try {
 
-    const query = `SELECT password FROM users WHERE email = $1;`
+    const query = `SELECT roles, password, email, username FROM users WHERE email = $1;`
     const result = await db.query(query, [email]);
+    console.log('result: ', result);
 
 
-    if (user.rows.length > 0) {
-      const user = result.rows[0];
-      console.log('user: ', user);
-      const hashedPassword = user.password;
+    if (result.rows.length > 0) {
+      const userPw = result.rows[0].password;
+      console.log('user password: ', userPw);
+      
 
-      const isPassValid = await bcrypt.compare(password, hashedPassword);
+      const isPassValid = await bcrypt.compare(password, userPw);
+
+      console.log("incoming password ", password)
+      console.log("does pass match: ", isPassValid)
 
       if (!isPassValid) {
         return res.status(401).json({ message: "Invalid username or password" });
       }
 
-      const token = generateToken(user);
+      const token = generateToken(result.rows[0]);
       const userInfo = {
-        email: user.email,
-        username: user.username,
-        roles: ['users']
+        email: result.rows[0].email,
+        username: result.rows[0].username,
+        roles: result.rows[0].roles
       }
 
       return res.status(200).json({ userInfo, token });
-      next();
+      
 
     } else {
       return res.status(401).json({ message: "Invalid username or password" });
@@ -181,7 +187,7 @@ userController.loginUser = async (req, res, next) => {
     return next(userController.createErr({
       err,
       method: 'loginUser',
-      type: 'Database Error.', 
+      type: `Database error:  ${err.message}`,
       message: 'Failed to login user due to server error.',
     })
   )};

@@ -9,9 +9,6 @@
   "private": false,
   "scripts": {
     "build": "webpack",
-    "backend:start": "nodemon server/server.js",
-    "frontend:start": "webpack serve --hot --progress",
-    "start": "concurrently \"npm backend:start\" \"npm frontend:start\"",
     "dev": "concurrently \"webpack serve --open\" \"nodemon server/server.js\""
   },
   "dependencies": {
@@ -27,8 +24,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.12.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.1",
-    "node-fetch": "^3.3.2",
     "openai": "^4.33.1",
     "pg": "^8.11.5",
     "react": "^18.2.0",

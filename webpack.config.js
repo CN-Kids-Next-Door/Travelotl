@@ -58,6 +58,10 @@ module.exports = {
       {
         context: ['/api'],
         target: 'http://localhost:3000'
+      },
+      {
+        context: ['/auth'],
+        target: 'http://localhost:3000'
       }
     ]
   },

@@ -12,6 +12,7 @@ const Register = () => {
     // Initialize empty state
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -26,14 +27,17 @@ const Register = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
       // Make fetch request with submitted data
-      const res = await fetch('/api/users/', {
+      const res = await fetch('/auth/register', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            firstName,
-            lastName,
-            username: email,
-            password
+            userInfo: {
+                firstName,
+                lastName,
+                username,
+                email,
+                password,
+            },
         })
       })
       // Check for ok response and redirect back to login
@@ -61,8 +65,13 @@ const Register = () => {
             </label>
             <br />
             <label>
+                Username:
+                <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='CN: KND'/>
+            </label>
+            <br />
+            <label>
                 Email:
-                <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='codesmith@test.com'/>
+                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='codesmith@test.com'/>
             </label>
             <br />
             <label>

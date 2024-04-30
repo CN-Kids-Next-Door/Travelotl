@@ -1,8 +1,8 @@
 const express = require('express');
 const itnryRouter = express.Router();
 
-const tripController = require('../../controllers/itnryController');
-const authController = require('../../controllers/authController');
+const tripController = require('../../controllers/itnryController.js');
+const authController = require('../../controllers/authController.js');
 
 itnryRouter
   .get('/:itnryId',
@@ -13,8 +13,8 @@ itnryRouter
      * 
      */ 
 
-    authController.protect, 
-    tripController.retrieveAll, 
+    // authController.protect, 
+    // tripController.retrieveAll, 
     (req, res) => {
     // console.log(res.locals.allTrips[0]._id);
       return res.status(200).json(res.locals.allTrips);
@@ -41,9 +41,9 @@ itnryRouter
       console.log("build route invoked");
       return next();
     },
-    authController.protect, 
-    tripController.buildTrip, 
-    tripController.saveTrip, 
+    // authController.protect, 
+    // tripController.buildTrip, 
+    // tripController.saveTrip, 
     (req, res) => {
       return res.status(201).send(res.locals.itinerary);
     }
@@ -55,9 +55,9 @@ itnryRouter
      * DELETE THIS RECORD: (:itnryId is set to the itnryId slated for deletion)
      */
 
-    authController.protect, 
-    tripController.deleteTrip, 
-    tripController.retrieveAll, 
+    // authController.protect, 
+    // tripController.deleteTrip, 
+    // tripController.retrieveAll, 
     (req, res) => {
       return res.status(200).send(res.locals.allTrips);
     }

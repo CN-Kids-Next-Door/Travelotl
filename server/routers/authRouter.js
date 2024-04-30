@@ -22,8 +22,9 @@ authRouter
 // LOGIN
   .post('/login',
     (req, res, next) =>{ console.log("Welcome to the ['/login'] endpoint."); return next(); },
-    (req, res, next) =>{ console.log("Bye from the ['/auth/login'] endpoint."); return next(); },    
-    (req, res) =>{ return res.status(200).json("Some custom message to ['/api/login'] at POST.") }
+    userController.loginUser,
+    // (req, res, next) =>{ console.log("Bye from the ['/auth/login'] endpoint."); return next(); },    
+    // (req, res) =>{ return res.status(200).json("Some custom message to ['/api/login'] at POST.") }
   )
 
 // LOGOUT

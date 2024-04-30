@@ -3,6 +3,7 @@
  * @description itinerary loading animation
  */
 
+import React from 'react';
 import video from '../assets/loader.mp4';
 
 const Loader = () => {

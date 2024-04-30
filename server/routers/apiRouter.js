@@ -1,7 +1,7 @@
 const express = require('express');
 const apiRouter = express.Router();
 
-const itnryRouter = require('./apiRouters/itnryRouter')
+const itnryRouter = require('./apiRouters/itnryRouter.js')
 // WELCOME TO API ENDPOINT ('/api')
 
 // ['/api'] ROOT ENDPOINT IS HERE:
