@@ -101,3 +101,6 @@ const Login = () => {
 //create a seperate folder named oauth
 //import methods of oauth here
 export default Login;
+
+//get code off get request
+//based off the code generate a post request
