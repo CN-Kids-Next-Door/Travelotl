@@ -27,7 +27,7 @@ const Login = () => {
       const res = await fetch('/auth/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password})
+        body: JSON.stringify({userInfo: {email, password}})
       })
 
       // Check for ok response and redirect back to main
@@ -36,6 +36,8 @@ const Login = () => {
         localStorage.setItem('userToken', user.token);
         console.log(user);
         navigate('/');
+      } else {
+        console.error('Failed to login');
       }
    };
    const CLIENT_ID = "fb26bcfe259d6f2f503c"
@@ -86,7 +88,10 @@ const Login = () => {
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Not 1234'/>
             </label>
             <br />
-            <button type='submit'>Login</button>
+            <button type="submit">
+              Login
+            </button>
+
             <button onClick = {logIn}>
               Login Through Github
             </button>

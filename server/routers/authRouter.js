@@ -1,12 +1,16 @@
 const express = require('express');
 const authRouter = express.Router();
-const userController = require('./../controllers/userController.js')
-const vaultController = require('./../controllers/vaultController.js')
+const userController = require('./../controllers/userController.js');
+const vaultController = require('./../controllers/vaultController.js');
 
 // REGISTER
 authRouter
   .post('/register',
-    (req, res, next) =>{ console.log("Welcome to the ['/auth/register'] endpoint."); return next(); },
+    (req, res, next) =>{ 
+      console.log("req.body:", req.body)
+      console.log("Welcome to the ['/auth/register'] endpoint."); 
+      return next(); 
+    },
     // vaultController.registerBodyCheck,
     vaultController.initializeItnryVault,
     vaultController.populateUsrVault,

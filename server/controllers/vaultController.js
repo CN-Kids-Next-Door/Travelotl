@@ -149,16 +149,18 @@ vaultController.resLocalsSave = (req, res, next) =>{
   /*
   *  CLEANUP OF req.dataVault
   */
- console.log('in reslocalssave');
+
   const { username, roles } = req.dataVault.userInfo;
 
+  res.locals.userInfo = res.locals.userInfo || {};
   res.locals.userInfo.username = res.locals.userInfo.username || {};
   res.locals.userInfo.roles = res.locals.userInfo.roles || [];
   res.locals.token = res.locals.token || {};
 
   res.locals.userInfo.username = username;
   res.locals.userInfo.roles = roles;
-  res.locals.token = 'FAKETOKEN';
+
+  res.locals.token = '';
 
   return next();
 }
@@ -250,13 +252,6 @@ vaultController.populateItnryVault = ( req, res, next ) => {
   return next();
 }
 
-
-
-
-
-
-
-
 function extractSegments(fullText) {
   const firstBacktickIndex = fullText.indexOf('```');
   const secondBacktickIndex = fullText.lastIndexOf('```');
@@ -286,27 +281,26 @@ function removeComments(jsonString) {
 // Main controller function
 vaultController.parseItinerary_ai = (req, res, next) => {
   try {
-      const fullText = req.dataVault.itinerary.itinerary_ai_preamble;
-      console.log("fulltext::", fullText);
+    const fullText = req.dataVault.itinerary.itinerary_ai_preamble;
+    console.log("fulltext::", fullText);
 
-      const { preamble, json } = extractSegments(fullText);
-      const noCommentsJson = removeComments(json); // Remove comments before parsing
-      const cleanedJson = cleanJsonString(noCommentsJson);
-      const parsedJson = JSON.parse(cleanedJson);
+    const { preamble, json } = extractSegments(fullText);
+    const noCommentsJson = removeComments(json); // Remove comments before parsing
+    const cleanedJson = cleanJsonString(noCommentsJson);
+    const parsedJson = JSON.parse(cleanedJson);
 
-      // Update dataVault with new parsed JSON and additional context
-      req.dataVault.itinerary = {
-          ...req.dataVault.itinerary,
-          itinerary_ai_preamble: preamble,
-          itinerary_ai_json: parsedJson.itinerary, // Store parsed JSON object
-      };
+    // Update dataVault with new parsed JSON and additional context
+    req.dataVault.itinerary = {
+        ...req.dataVault.itinerary,
+        itinerary_ai_preamble: preamble,
+        itinerary_ai_json: parsedJson.itinerary, // Store parsed JSON object
+    };
 
-      return next();
+    return next();
   } catch (e) {
-      console.error("Error parsing JSON: ", e);
-      return res.status(400).send(`JSON parse error: ${e.message}`);
+    console.error("Error parsing JSON: ", e);
+    return res.status(400).send(`JSON parse error: ${e.message}`);
   }
 };
-
 
 module.exports = vaultController;
