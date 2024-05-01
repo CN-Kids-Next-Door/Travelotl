@@ -1,24 +1,53 @@
-// import { Pool } from 'pg';
+const { Pool } = require('pg');
+require('dotenv').config();
 
-// //test to creck connection
-// describe('Postgres DB Connection', () => {
-//     itnryModel('should establish a successful pg db connection', async () => {
-//         //create new pool
-//         const pool = new Pool({
-//             user: 'my_username',
-//             password: 'my_password',
-//             host: 'localhost',
-//             port: 5432,
-//             database: 'our_database',
-//         });
+let pool;
 
-//         //attempt to connect
-//         const client = await pool.connect();
+beforeAll(() => {
+    const {
+        POSTGRES_USER: user,
+        POSTGRES_DB: database,
+        POSTGRES_PASSWORD: password,
+        POSTGRES_PORT: port,
+        POSTGRES_HOST: host,
+        POSTGRES_MAX: max,
+        POSTGRES_IDLETIMEOUTMILLIS: idleTimeoutMillis,
+        POSTGRES_CONNECTIONTIMEOUTMILLIS: connectionTimeoutMillis,
+        POSTGRES_SESSION_CLEANUP_INTERVAL: cleanupInterval
+      } = process.env;
 
-//         //should be truthy if connection works
-//         expect(client).toBeTruthy();
+    pool = new Pool({
+        user,
+        database,
+        password,
+        port,
+        host,
+        max,
+        idleTimeoutMillis,
+        connectionTimeoutMillis
+    })
+})
 
-//         //release connection
-//         client.release();
-//     })
-// })
+beforeAll(done => {
+    done()
+})
+
+
+afterAll(() => {
+    pool.end();
+})
+
+//test to creck connection
+describe('Postgres DB Connection', () => {
+    //it block
+    it('should successfully connect to db with correct info', async () => {
+
+        const client = await pool.connect();
+
+        expect(client).toBeTruthy();
+
+        client.end();
+    })
+})
+
+//it block

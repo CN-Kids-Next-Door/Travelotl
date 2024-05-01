@@ -1,24 +1,24 @@
-// const { Pool } = require('pg');
+const { Pool } = require('pg');
 
-// const connectToDB = async () => {  
-//   const pool = new Pool({
-//     user,
-//     database,
-//     password,
-//     port,
-//     host,
-//     max,
-//     idleTimeoutMillis,
-//     connectionTimeoutMillis
-//   });
+const connectToDB = async () => {  
+  const pool = new Pool({
+    user,
+    database,
+    password,
+    port,
+    host,
+    max,
+    idleTimeoutMillis,
+    connectionTimeoutMillis
+  });
 
-//   const client = await pool.connect();
-//   client.release();
+  const client = await pool.connect();
+  client.release();
 
-//   return true;
-// };
+  return true;
+};
 
 
-//   module.exports = {
-//     connectToDB,
-//   };
+  module.exports = {
+    connectToDB,
+  };
