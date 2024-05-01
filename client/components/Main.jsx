@@ -14,20 +14,20 @@ const Main = () => {
     return(
        <>
        <header className="flex flex-col items-center justify-center min-h-screen size-1 overflow-hidden">
-               <video
-                    autoPlay
-                    loop
-                    muted
-                    className= "absolute object-top z-10 min-w-screen min-h-screen"
-                    style={{height:'100vh', width: '100vw' }}
-                >
-                    <source
-    
-                        src={travelVideo}
-                        type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                </video>
+          <video
+              autoPlay
+              loop
+              muted
+              className= "absolute object-top z-10 min-w-screen min-h-screen"
+              style={{height:'100vh', width: '100vw' }}
+          >
+              <source
+
+                  src={travelVideo}
+                  type="video/mp4"
+              />
+              Your browser does not support the video tag.
+          </video>
             <div>
                 <img src={Logo} style={{height: '100px', width: '100px', position : 'absolute', left: '5%', top: '1%', zIndex: '3', transform: 'translateX(-50%)'   }} alt= 'Travolotl Logo'/>
             </div>

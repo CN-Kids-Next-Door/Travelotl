@@ -5,6 +5,9 @@ const path = require ('path');
 // .ENV FILE USAGE
 require('dotenv').config();
 
+//Stuff I just added today 4/27
+const client_id = "9d73905a903015abf5f249a7e899a4ddb725f15d"
+
 // DEFAULT IMPORTS OF ROUTERS
 const authRouter = require('./routers/authRouter.js');    // LOGIN, REGISTER, LOGOUT, ETC
 const apiRouter = require('./routers/apiRouter.js');      // ITINERY, ETC
@@ -46,8 +49,12 @@ app
         * ['/api']       (FOR ROUTER see "./routers/apiRouter.js")
         * ['/api/itnry'] (FOR ROUTER see "./routers/apiRouters/itnryRouter.js")
         */
-
-// 404 HANDLER  (NOTE: tobe modified for OAuth)
+   .get('/successlogin', // OAUTH
+      (req, res) => {
+        return res.redirect("/success");
+      }
+    )
+// 404 HANDLER
    .use( defaultErrorHandler )
 
 // USE GLOBAL ERROR HANDLER

@@ -12,7 +12,7 @@ apiRouter
     (req, res) => { return res.status(200).json('Some custom message to ['/api/'] at POST.'); }
   )
 
-// ['/api/itnry'] ENDPOINT STARTS HERE
-  .post('/itnry', itnryRouter);
+// ['/api/:user_id/itnry'] ENDPOINT STARTS HERE
+  .use('/:user_id/itnry', itnryRouter);
 
 module.exports = apiRouter;
