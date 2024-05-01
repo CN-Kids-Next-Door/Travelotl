@@ -5,11 +5,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../assets/Travelotl_Logo.png';
-import travelVideo from '../assets/flying_224323391_Video_4K_Preview.mp4';
+import Logo from './../../assets/Travelotl_Logo.png';
+
 
 // import Header from './Header.jsx';
-const Login = () => {
+const Login = ({ toggle }) => {
     // Initialize empty state
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -78,20 +78,7 @@ const Login = () => {
       
       <header className="flex items-center justify-center h-screen overflow-hidden" />
       
-        <video
-            autoPlay
-            loop
-            muted
-            className="absolute min-w-screen min-h-screen"
-            style={{height:'105vh', width: '115vw' }}
-        >
-            <source
 
-                src={travelVideo}
-                type="video/mp4"
-            />
-        Your browser does not support the video tag.
-        </video>
         
       <div style={{position : 'absolute', left: '20%', top: '50%', zIndex: '3', transform: 'translateX(-50%)'   }}>
         <h2 className="text-3xl font-semibold text-center text-gray mt-[-50px] mb-8">
@@ -116,7 +103,15 @@ const Login = () => {
             <button onClick = {logIn}>
               Login Through Github
             </button>
+
         </form>
+
+        <button 
+          type="button" 
+          onClick={toggle}>
+          Go to Signup Page
+        </button>
+
     </div>
     </div>
    );
