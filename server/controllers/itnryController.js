@@ -1,41 +1,55 @@
 const express = require('express');
-require('dotenv').config();
-
-const app = express();
-
-const OpenAI = require('openai');
-const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
-
+const axios = require('axios')
+const { Configuration, OpenAIApi } = require('openai');
 const db = require('../db_models/itnryModel.js')
 
-const { createError } = require('../serverConfigs/globalErrorHandler.js')
+// NAMED IMPORT TO USE GLOBAL ERROR CONTROLLER ON ALL ERRORS
+const { createError } = require('./../serverConfigs/globalErrorHandler.js')
 
-// TEST DATA - DELETE WHEN FINISHEDßß
-// const travelPlans = {
-//   destination: 'Los Angeles, CA',
-//   startDate: 'June 2, 2024',
-//   endDate: 'June 8, 2024',
-//   activities: [],
-//   budget: 500,
-//   travelers: 1,
-//   groupDescription: 'Solo traveler',
-//   loading: false,
-//   error: null,
-// }
-// ========= end of TEST DATA ============
+require('dotenv').config();
+// const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
+const app = express();
 
-const tripController = {
-  createErr: createError('tripController')
+const apiKey = process.env.OPEN_AI_API_KEY;
+const url = 'https://api.openai.com/v1/chat/completions';
+
+const itnryController = {
+  /**
+   * INITIALIZE "parameter controller" of NAMED IMPORT of 'FACTORY FUNCTION' 
+   * labelled createError to string argument of 'vaultController'
+   */
+
+  createErr: createError('itnryController')
 }
 
+  // buildTrip - To fetch itinerary from API request to Open AI
+itnryController.buildTrip = async (req, res, next) => {
+  const { 
+    user_id,
+    location_destination,
+    location_source,
+    budget,
+    activities,
+    travelers,
+    date_start,
+    date_end,
+    group_description,
+    itinerary_ai_preamble,
+  } = req.dataVault.itinerary;
 
-// buildTrip - To fetch itinerary from API request to Open AI
-tripController.buildTrip = async (req, res, next) => {
-  console.log("buildTrip invoked");
-  const { destination, startDate, endDate, activities, budget, travelers, groupDescription } = req.body;
-  res.locals.tripName = `${destination} from ${startDate} to ${endDate}`;
-
-  const prompt = `Make an itinerary for a trip for ${travelers} to ${destination} from ${startDate} until ${endDate}. I have a budget of ${budget}. Include the following types of attractions: ${activities.join(', ')} for a ${groupDescription}. Organize the itinerary by the following times of day: morning, afternoon, and evening. Recommend specific places of interest with their address. Limit cross-city commutes by grouping places of interest by geography for each day. Output the response in json format following this schema:
+  const prompt = `Make an itinerary for a trip for 
+    ${travelers} from ${location_source} to 
+    ${location_destination} from ${date_start} until 
+    ${date_end}. At the bare minimum, provide an itinerary
+    for every 3rd day.  I have a budget of ${budget}. Include the 
+    following types of attractions: ${activities.join(', ')} 
+    for a ${group_description}. Organize the itinerary by 
+    the following times of day: morning, afternoon, and 
+    evening. Recommend specific places of interest with 
+    their address. Limit cross-city commutes by grouping 
+    places of interest by geography for each day. Output 
+    the response in json format following this schema:
+    \`\`\`json
     {
       itinerary: {
         date: {
@@ -43,108 +57,256 @@ tripController.buildTrip = async (req, res, next) => {
             activity: string,
             description: string,
             address: string,
+            cost: number,
           }
         }
       }
     }
-    Thank you.`;
+    \`\`\`
+    Please note that the cost, inside the object, should 
+    the the cost for that particular activity during that 
+    particular time of the day.  The cost should be an 
+    estimated cost.
 
+    Only provide a preamble.  That is, before the json provide
+    a brief summary of the trip and the underlying decisions
+    for the choices.  Do not provide a postable, that is text
+    after the json.
+
+    Do not provide text like
+    (Similar entries would continue for each day up through 2/5/2025)
+    inside the JSON.
+
+    Always use three backticks followed by the string "json" as the 
+    delimiters to identify the JSON output.
+
+    Again, provide an itinerary for every 3rd day.  Should budget
+    be lacking look at free events, outdoor shows, or non profit events.
+
+    Please do not use markup formatting.
+
+    Finally, include a heading that briefly describes the trip in a 
+    playful and thoughtful manner.  Absolutely do not use # in at all.
+
+    Make sure that the heading is encapsulated inside <h1> and </h1> tags
+    whereas the description is encapsulated inside <p> tags.  Make
+    sure this encapsulation happens.  Always.  Absolutely no alternatives.
+
+    Thank you.
+  `;
 
   try {
-    const completion = await openai.chat.completions.create({
-      messages: [{ "role": "system", "content": "You are a helpful travel planning assistant." },
-      {
-        "role": "user",
-        "content": prompt,
-      }],
-      model: "gpt-3.5-turbo",
-      response_format: { type: "json_object" },
+
+    const response = await axios.post(url, {
+      model: "gpt-4-turbo",
+      messages: [{ role: "system", content: "You are a helpful assistant." }, 
+                 { role: "user", content: prompt }]
+    }, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
     });
 
-    console.log(completion.choices[0]);
-    res.locals.itinerary = JSON.parse(completion.choices[0].message.content);
-    return next();
-  } catch (err) {
-    console.log('Build Trip Error:', err);
-    return next(tripController.createErr({
-      err,
+  console.log("Response from GPT-4.0:");
+  console.log(response.data.choices[0].message.content);
+
+  req.dataVault.itinerary.itinerary_ai_preamble=response.data.choices[0].message.content
+
+  return next()
+  } catch (error) {
+    console.error('Error querying OpenAI GPT-4.0:', error.message);
+
+    // Use a custom method to log or handle errors appropriately
+    next(itnryController.createErr({
+      err: error,
       method: 'buildTrip',
-      type: 'Controller Error',
-      message: 'Internal Server Error',
-    }))
+      type: 'API Call Failed',
+      message: 'Failed to build trip due to an internal API error',
+      statusCode: error.response ? error.response.status : 500
+    }));
   }
 }
+
 // saveTrip - To save the contents of the generated itinerary into the database
-tripController.saveTrip = async (req, res, next) => {
+itnryController.saveItnry = async (req, res, next) => {
+  if (!req.dataVault || !req.dataVault.itinerary) {
+    return next(itnryController.createErr({
+      message: 'No itinerary data provided',
+      statusCode: 400,
+      type: 'Validation Error'
+    }));
+  }
 
-  //get id off req body
-  const { id } = req.body;
+  const { 
+    user_id, 
+    location_destination, 
+    location_source, 
+    budget, 
+    travelers, 
+    date_start, 
+    date_end, 
+    group_description,
+    itinerary_ai_preamble,
+    itinerary_ai_json,
+  } = req.dataVault.itinerary;
 
-  //get itinerary off locals when created
-  const { itinerary } = res.locals.itinerary;
+  if (!user_id || !location_destination || !location_source || !budget || !travelers || !date_start || !date_end) {
+    return next(itnryController.createErr({
+      message: 'Required itinerary field missing',
+      statusCode: 400,
+      type: 'Validation Error'
+    }));
+  }
 
-  //query to insert itinerary into table 
-  const itnryQuery = `INSERT INTO itinerary (${itinerary})
-    SELECT i.user_id FROM itinerary i 
-    INNER JOIN users u
-    ON i.user_id = u.${id};`;
+  const query = `
+    INSERT INTO itinerary (
+      user_id, 
+      location_destination, 
+      location_source,
+      budget, 
+      travelers, 
+      date_start, 
+      date_end, 
+      group_description,
+      itinerary_ai_preamble,
+      itinerary_ai_json
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    RETURNING itnry_id;
+  `;
+
+  const params = [
+    user_id,
+    location_destination,
+    location_source,
+    budget, 
+    travelers,
+    date_start,
+    date_end,
+    group_description,
+    JSON.stringify(itinerary_ai_preamble),
+    itinerary_ai_json,
+  ];
 
   try {
-    //add itinerary to table 
-    const saved = await db.query(itnryQuery)
-    alert('Trip has been saved!')
+
+    const result = await db.query(query, params);
 
     return next();
+  } catch (err) {
 
+    if (err.code === '23505') { // POSTGRES SQL ERROR CODE FOR UNIQUENESS VIOLATION
+      return next(itnryController.createErr({
+        //  SERVER MESSAGES
+        err,
+        method: 'saveItnry',
+        type: 'Itinerary already exists for some reason, cannot create this itinerary',
+        //  CLIENT MESSAGES    
+        message: 'Itinerary already exists',
+        statusCode: 409,
+      }));
+    } else if (err.code === '23502') { // POSTGRES ERROR CODE FOR NOT NULL VIOLATION
+      return next(itnryController.createErr({
+        //  SERVER MESSAGES
+        err,
+        method: 'saveItnry',
+        type: 'A field was NULL when the SQL database does not permit NULL entries for that field',
+        //  CLIENT MESSAGES    
+        message: 'Required field missing',
+        statusCode: '400',
+      }));
+    } else if (err.code === '23505') { // POSTGRES ERROR CODE FOR UNIQUE CONSTRAINT VIOLATION
+      return next(itnryController.createErr({
+        // SERVER FACING - FOR DIAGNOSIS
+        err,
+        method: 'saveItnry',
+        type: `Unique constraint violation: The operation attempted to insert or update an entry that would result in duplicate data in a column that must be unique, such as a primary key.Error:: ${err.message}`,
+        // CLIENT FACING
+        message: 'Operation failed: the data already exists.',
+        statusCode: '409', // 409 Conflict might be more appropriate than 500 Internal Server Error
+      }));
+    } else if (err.code === '42703') { // POSTGRES ERROR CODE FOR UNDEFINED COLUMN
+      return next(itnryController.createErr({
+        // SERVER FACING - FOR DIAGNOSIS
+        err,
+        method: 'saveItnry',
+        type: `Undefined column error: The SQL statement references a column that does not exist in the database schema.  Error:: ${err.message}`,
+        // CLIENT FACING
+        message: 'Operation failed: the request references an invalid field.',
+        statusCode: '400',
+      }));
+    } else {
+      return next(itnryController.createErr({
+        //  SERVER MESSAGES
+        err,
+        method: 'saveItnry',
+        type: `During the save attempt, something went wrong and there was a failure to save itinerary to the database.  Error:: ${err.message}`,
+        //  CLIENT MESSAGES    
+        message: 'Failed to save itinerary to the database',
+        //  DEFAULT STATUS CODE
+      }));
+    }  
+  }
+};
+  
+// deleteItnry - To delete the itinerary from the database based on itrnyId
+itnryController.deleteItnry = async (req, res, next) => {
+
+  // SQL query to delete an itinerary and return the deleted record
+  const query = `
+    DELETE FROM itinerary
+    WHERE itnry_id = $1
+    RETURNING *;
+  `;
+
+  console.log(req.dataVault)
+  try {
+    const deletion = await db.query(query, [req.dataVault.itinerary.itnry_id]);
+    console.log(deletion.rows[0])
+    req.dataVault.itinerary = deletion.rows[0]
+
+    if (req.dataVault.itinerary) {
+        console.log("Itinerary deleted from the database");
+    } else {
+      return next(itnryController.createErr({
+        //  SERVER MESSAGES
+        method: 'deleteItnry',
+        type: 'The data to delete was non-existant',
+        //  CLIENT MESSAGES    
+        message: 'Attempted to delete non-existant data.',
+        statusCode: 404,
+      }))
+    }
+    return next();
 
   } catch (err) {
-    console.log('Save Trip error:', err);
-    return next(tripController.createErr({
-      err,
-      method: 'saveTrip',
-      type: 'Controller Error',
-      message: 'Internal Server Error',
-    }))
-  }
 
+    return next(itnryController.createErr({
+      //  SERVER MESSAGES
+      err,
+      method: 'deleteItnry',
+      type: `Something, other than non-existant data, went wrong on delete attempt.  Error: ${err.message}`,
+      //  CLIENT MESSAGES    
+      message: 'Something went wrong on delete attempt.',
+    }));
+  }
 }
 
-// commented out old code below to work on later
+  // retrieveAll - To retrieve all trips saved for a specific user
+itnryController.retrieveAll = (req, res, next) => {
+  Itinerary.find({
+    "email": req.body.email,
+  })
+    .then (result => {
+      // console.log(result);
+      res.locals.allTrips = result;
+      console.log("All trips retrieved - retrieveAllTrips middleware");
+      return next();
+    })
+    .catch (err => {
+      console.log("could not retrieve all trips - retrieveAllTrips middleware");
+      console.error("retrieveAllTrips ERROR =>", err);
+    })
+}
 
-// deleteTrip - To delete the itinerary from the database based on the ObjectId
-// tripController.deleteTrip = async (req, res, next) => {
-//   console.log(req.body);
-//   console.log("deleteTrip Middleware - tripId:", req.body.tripId);
-//   Itinerary.findOneAndDelete({ "_id": `${req.body.tripId}` })
-//     .then(result => {
-//       if (result) {
-//         console.log("Itinerary deleted from the database - deleteTrip");
-//       } else {
-//         console.log("ObjectId not found. Nothing deleted");
-//       }
-//       return next();
-//     })
-//     .catch(err => {
-//       console.log("could not locate itinerary based on id passed in - deleteTrip middleware");
-//       console.error("deleteTrip ERROR =>", err);
-//     })
-// }
-
-// retrieveAll - To retrieve all trips saved for a specific user
-// tripController.retrieveAll = async (req, res, next) => {
-//   Itinerary.find({
-//     "email": req.body.email,
-//   })
-//     .then(result => {
-//       // console.log(result);
-//       res.locals.allTrips = result;
-//       console.log("All trips retrieved - retrieveAllTrips middleware");
-//       return next();
-//     })
-//     .catch(err => {
-//       console.log("could not retrieve all trips - retrieveAllTrips middleware");
-//       console.error("retrieveAllTrips ERROR =>", err);
-//     })
-// }
-
-module.exports = tripController;
+module.exports = itnryController;

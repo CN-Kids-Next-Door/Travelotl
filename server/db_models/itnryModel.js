@@ -54,9 +54,9 @@ pool
 setInterval(() => {
     pool.query('SELECT 1', (err, res) => {
         if (err) {
-            console.error('SQL: Health check failed:', err);
+            console.error('SQL-(HEALTH): Health check failed:', err);
         } else {
-            console.log('SQL: Health check successful');
+            console.log('SQL-(HEALTH): Health check successful');
         }
     });
 }, 300000);
@@ -67,9 +67,9 @@ setInterval(() => {
   const query = 'DELETE FROM sessions WHERE timestamp < NOW() - INTERVAL \'5 minutes\'';
   pool.query(query, (err, res) => {
       if (err) {
-          console.error('SQ: (SESSION CLEANUP) Session cleanup failed:', err);
+          console.error('SQ-(SESSION CLEANUP): Session cleanup failed:', err);
       } else {
-          console.log('SQL: (SESSION CLEANUP) Session cleanup successful', res.rowCount, 'rows deleted');
+          console.log('SQL-(SESSION CLEANUP): Session cleanup successful', res.rowCount, 'rows deleted');
       }
   });
 }, sessionCleanupInterval);
