@@ -1,0 +1,22 @@
+# This is a template ENV File.
+# The template provides information on what is neede.POSTGRES_DB
+
+# Please (1) make a copy of this fie and (2) rename it to .env
+#    and (3), finally, place it in the root directory of project
+
+HOST=localhost
+PORT=3000
+JWT_SECRET=DEFAULTSECRET
+
+OPEN_AI_API_KEY=
+
+POSTGRES_DB=postgres
+POSTGRES_USER=postgres.gntnoaqnwfdtykjwtdla
+POSTGRES_PASSWORD=Aleksander%202120
+POSTGRES_PORT=5432
+POSTGRES_HOST=aws-0-us-west-1.pooler.supabase.com
+POSTGRES_IDLETIMEOUTMILLIS=30000
+POSTGRES_CONNECTIONTIMEOUTMILLIS=5000
+
+
+POSTGRES_SESSION_CLEANUP_INTERVAL=1200000   #Session DB Cleanup every 20 minutes
