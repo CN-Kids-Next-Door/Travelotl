@@ -1,29 +1,37 @@
 const express = require('express');
 const itnryRouter = express.Router();
 
-const tripController = require('../../controllers/itnryController.js');
+const itnryController = require('../../controllers/itnryController.js');
 const authController = require('../../controllers/authController.js');
+const vaultController = require('../../controllers/vaultController.js');
 
 itnryRouter
-  .get('/:itnryId',
+  .get('/:itnry_id',
     /**
-     *  GET METHOD MESSAGES TO ['/api/:itnryId']
-     *  GET ALL RECORDS: (:itnryId is set to all)
-     *  GET THIS RECORD: (:itnryId is set to itnryId slated for retrieval)
+     *  GET METHOD MESSAGES TO ['/api/itnry/:itnry_id']
+     *  GET ALL RECORDS: (:itnry_id is set to all)
      * 
      */ 
+    // vaultController.initializeItnry_id,
 
-    // authController.protect, 
-    // tripController.retrieveAll, 
+    // authController.protectJWT, 
+    // itnryController.retrieveAll, 
     (req, res) => {
     // console.log(res.locals.allTrips[0]._id);
       return res.status(200).json(res.locals.allTrips);
     }
   )
-  .patch('/:itnryId',
+  .get('/:itnry_id',
+      /**
+     *  GET METHOD MESSAGES TO ['/api/itnry/:itnry_id']
+     *  GET THIS RECORD: (:itnry_id is set to itnry_id slated for retrieval)
+     * 
+     */ 
+  )
+  .patch('/:itnry_id',
     /**
-     * PATCH METHOD HANDLER TO ['/api/:itnryId']
-     * EDIT THIS RECORD:  (:itnryId is set to recordId slated for edit )
+     * PATCH METHOD HANDLER TO ['/api/itnry/:itnry_id']
+     * EDIT THIS RECORD:  (:itnry_id is set to recordId slated for edit )
      *                    ( && req.body contains edit info )
      */
 
@@ -33,49 +41,45 @@ itnryRouter
   )
   .post('/', 
     /**
-     * POST METHOD MESSAGES TO ['/api/']
+     * POST METHOD MESSAGES TO ['/api/itnry/']
      * ADD A RECORD FOR USER: (no req.params && req.body contains new record information)
      */
-
     (req, res, next)=>{
-      console.log("build route invoked");
+      console.log("first step")
       return next();
     },
-    // authController.protect, 
-    // tripController.buildTrip, 
-    // tripController.saveTrip, 
+
+    vaultController.initializeItnryVault,
+    vaultController.populateItnryVault,
+    // authController.jwtReqCheck,          // COMMENT OUT TO DISABLE JWT CHECK
+    // authController.jwtDecode,            // COMMENT OUT TO DISABLE JWT CHECK
+    itnryController.buildTrip, 
+    vaultController.parseItinerary_ai,
+    itnryController.saveItnry, 
+    vaultController.resLocalsItnrySave,
+    vaultController.cleanupItnryVault,    
     (req, res) => {
-      return res.status(201).send(res.locals.itinerary);
+      return res.status(201).send( res.locals );
     }
   )
-  .delete('/:itnryId', 
+  .delete('/:itnry_id', 
     /**
-     * DELETE METHOD MESSAGES TO ['/api/:itnryId']
-     * DELETE ALL RECORDS: (:itnryId is set to all) 
-     * DELETE THIS RECORD: (:itnryId is set to the itnryId slated for deletion)
+     * DELETE METHOD MESSAGES TO ['/api/itnry/:itnry_id']
+     * DELETE ALL RECORDS: (:itnry_id is set to all) 
+     * DELETE THIS RECORD: (:itnry_id is set to the itnry_id slated for deletion)
      */
-
-    // authController.protect, 
-    // tripController.deleteTrip, 
-    // tripController.retrieveAll, 
+    (req, res, next ) => { console.log("reached delete"); return next(); },
+    vaultController.checkItnry_id,
+    vaultController.initializeItnryVault,
+    vaultController.populateItnry_id,
+    // authController.jwtReqCheck,          // COMMENT OUT TO DISABLE JWT CHECK
+    // authController.jwtDecode,            // COMMENT OUT TO DISABLE JWT CHECK
+    itnryController.deleteItnry, 
+    vaultController.resLocalsItnrySave, 
+    vaultController.cleanupItnryVault,
     (req, res) => {
-      return res.status(200).send(res.locals.allTrips);
+      return res.status(200).send( res.locals );
     }
   );
 
 module.exports = itnryRouter;
-
-
-// SAMPLE DATA
-// const travelPlans = {
-//   recordId: <recordId>,
-//   destination: 'Los Angeles, CA',
-//   startDate: 'June 2, 2024',
-//   endDate: 'June 8, 2024',
-//   activities: [],
-//   budget: 500,
-//   travelers: 1,
-//   groupDescription: 'Solo traveler',
-//   loading: false,
-//   error: null,
-// }
