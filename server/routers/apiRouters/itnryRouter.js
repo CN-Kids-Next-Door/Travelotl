@@ -50,15 +50,15 @@ itnryRouter
       return next();
     },
 
-    // vaultController.initializeItnryVault,
-    // vaultController.populateItnryVault,
-    // // authController.jwtReqCheck,          // COMMENT OUT TO DISABLE JWT CHECK
-    // // authController.jwtDecode,            // COMMENT OUT TO DISABLE JWT CHECK
-    // itnryController.buildTrip, 
-    // vaultController.parseItinerary_ai,
-    // itnryController.saveItnry, 
-    // vaultController.resLocalsItnrySave,
-    // vaultController.cleanupItnryVault,    
+    vaultController.initializeItnryVault,
+    vaultController.populateItnryVault,
+    // authController.jwtReqCheck,          // COMMENT OUT TO DISABLE JWT CHECK
+    // authController.jwtDecode,            // COMMENT OUT TO DISABLE JWT CHECK
+    itnryController.buildTrip, 
+    vaultController.parseItinerary_ai,
+    itnryController.saveItnry, 
+    vaultController.resLocalsItnrySave,
+    vaultController.cleanupItnryVault,    
     (req, res) => {
       return res.status(201).send( res.locals );
     }

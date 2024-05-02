@@ -16,4 +16,5 @@ const itnryStateSlice = createSlice({
   },
 });
 
+export const { setItineraries } = itnryStateSlice.actions;
 export default itnryStateSlice.reducer;

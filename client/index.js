@@ -9,11 +9,7 @@ import { Provider } from 'react-redux';
 
 import { store } from './app/store.js';
 
-
 import App from './App.jsx';
-
-// Configure Redux store for state management
-
 
 // Render React app off of 'root' element using DOM manipulation
 const root = createRoot(document.getElementById('root'));
@@ -25,5 +21,4 @@ root.render(
         <App />
 
     </Provider>
-    
 );

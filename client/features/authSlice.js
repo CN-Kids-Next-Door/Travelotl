@@ -1,4 +1,5 @@
 import { apiSlice } from "./apiSlice.js";
+import { setUserInfo, setToken } from './state_authSlice.js';
 const URL_AUTH = "auth";
 
 // MUTATION OPTIONS (e.g., ['/urlPath'] varies) for /auth FOR DRY
@@ -8,6 +9,22 @@ const mutationOptions = (endpointPath, method = 'POST') => ({
     method: "POST",
     ...(method === 'POST' && { body: data }) 
   }),
+  // Adding transformation and side-effects here
+  transformResponse: (response, meta, arg) => {
+    console.log("API Raw Response:", response);
+    return response;
+  },
+  onQueryStarted: async (arg, { queryFulfilled, dispatch }) => {
+    try {
+      const { data } = await queryFulfilled;
+      console.log("Transformed Data:", data); // Log the transformed data
+      dispatch(setUserInfo(data.userInfo)); 
+      dispatch(setToken(data.token));       
+      localStorage.setItem('token', data.token); 
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  }
 });
 
 export const registerApiSlice = apiSlice.injectEndpoints({

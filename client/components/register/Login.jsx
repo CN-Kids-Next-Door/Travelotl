@@ -97,8 +97,6 @@ const Login = ({ toggle }) => {
     
     <header className="flex items-center justify-center h-screen overflow-hidden" />
     
-
-      
     <div style={{position : 'absolute', left: '20%', top: '50%', zIndex: '3', transform: 'translateX(-50%)'   }}>
       <h2 className="text-3xl font-semibold text-center text-gray mt-[-50px] mb-8">
         Login
