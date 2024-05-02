@@ -10,27 +10,27 @@ export default function SwitchLoginRegisterForms() {
         setIsLogin(!isLogin);
     };
 
-    return (
-    <div className="min-h-screen flex justify-center items-center">
-      
+    return ( 
+    <>
       <video
         autoPlay
         loop
         muted
-        className="absolute min-w-screen min-h-screen"
-        style={{height:'105vh', width: '115vw' }}>
+        className="fixed top-0 left-0 min-w-full min-h-full object-cover z-0"
+      >
         <source
-            src={travelVideo}
-            type="video/mp4" />
-      Your browser does not support the video tag.
-
+          src={travelVideo}
+          type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
 
-      {isLogin ? (
-          <Login toggle={toggle} />
-      ) : (
-          <Register toggle={toggle} />
-      )}
-    </div>
+      <div className="min-h-screen flex justify-center items-center">
+        {isLogin ? (
+            <Login toggle={toggle} />
+        ) : (
+            <Register toggle={toggle} />
+        )}
+      </div>
+    </>
   );
 }

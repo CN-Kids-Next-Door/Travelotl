@@ -6,8 +6,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateTravelers } from '../../reducers/tripReducer';
-import { updateForm } from '../../reducers/formReducer';
+// import { updateTravelers } from '../../reducers/tripReducer';
+// import { updateForm } from '../../reducers/formReducer';
 
 const Travelers = () => {
     // Get current number of travelers from Redux store

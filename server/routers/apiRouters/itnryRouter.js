@@ -1,5 +1,11 @@
 const express = require('express');
-const itnryRouter = express.Router();
+
+// mergeParams:  ALLOWS FOR USAGE OF :user_id FROM ENDPOITN OF ['/api/:user_id/itnry/:itnry_id']
+const itnryRouter = express.Router({ mergeParams: true });
+
+//TEMP
+const db = require('../../db_models/itnryModel.js')
+
 
 const itnryController = require('../../controllers/itnryController.js');
 const authController = require('../../controllers/authController.js');
@@ -10,16 +16,11 @@ itnryRouter
     /**
      *  GET METHOD MESSAGES TO ['/api/itnry/:itnry_id']
      *  GET ALL RECORDS: (:itnry_id is set to all)
-     * 
      */ 
     // vaultController.initializeItnry_id,
 
-    // authController.protectJWT, 
-    // itnryController.retrieveAll, 
-    (req, res) => {
-    // console.log(res.locals.allTrips[0]._id);
-      return res.status(200).json(res.locals.allTrips);
-    }
+    itnryController.retrieveAll, 
+    (req, res) => { return res.status(200).json( res.locals ); }
   )
   .get('/:itnry_id',
       /**

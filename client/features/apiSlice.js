@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+const URL_APIBASE = `http://localhost:8080/`;
 
-export const apiSlice = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
+const baseQuery = fetchBaseQuery({
+    baseUrl: `/`,
+
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -11,13 +11,13 @@ export const apiSlice = createApi({
       }
       return headers;
     },
-  }),
-  endpoints: (builder) => ({
-    getSomething: builder.query({
-      query: () => '/something',
-    }),
-    // Additional endpoints can be added here
-  }),
+
+  })
+
+export const apiSlice = createApi({
+  baseQuery,
+  reducerPath: `${URL_APIBASE}`,
+  endpoints: (builder) => ({}),
 });
 
-export const { useGetSomethingQuery } = apiSlice;
+export default apiSlice;
