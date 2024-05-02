@@ -73,14 +73,14 @@ vaultController.initializeItnryVault = (req, res, next) =>{
   
     const structdefUserInfo = [
       { keys: ['firstName', 'lastName', 'email', 
-               'password', 'username'], defaultValue: {} },
+               'password', 'username','profile_image'], defaultValue: {} },
       { keys: ['roles'], defaultValue: [] }
     ];
   
     const structdefItinerary = [
       { keys: ['itnry_id', 'itinerary_ai_preamble', 'itinerary_ai_json', 'user_id', 'location_destination', 
       'location_source', 'budget', 'travelers', 'date_start', 
-      'date_end', 'group_description'], defaultValue: {} },            
+      'date_end', 'group_description', 'itnry_image'], defaultValue: {} },            
       { keys: ['activities'], defaultValue: [] }
     ];
 
