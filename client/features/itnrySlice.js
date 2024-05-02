@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice.js";
 
 const URL_APIBASE = `api`;
-const URL_API `itnry`;
+const URL_API = `itnry`;
 
 export const itnryApiSlice = apiSlice.injectEndpoints({
 
