@@ -10,7 +10,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "concurrently \"webpack serve --open\" \"nodemon server/server.js\"",
-    "test": "jest"
+    "test": "jest",
     "backend:start": "nodemon server/server.js",
     "frontend:start": "webpack serve --hot --progress",
     "start": "concurrently \"npm backend:start\" \"npm frontend:start\"",
