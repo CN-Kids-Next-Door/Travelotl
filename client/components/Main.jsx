@@ -9,6 +9,7 @@ import Logo from '../assets/Travelotl_Logo.png'
 // import Header from './Header.jsx';
 import travelVideo from '../assets/AdobeStock_118726863_travel_Preview.mp4'
 
+
 const Main = () => {
   const navigate = useNavigate();
 
@@ -23,10 +24,15 @@ const Main = () => {
           autoPlay
           loop
           muted
-          className= "absolute object-top z-10 min-w-screen min-h-screen"
+          className= "fixed z-10 "
           style={{
-            height:'100vh', 
-            width: '100vw' 
+            margin:'0',
+            padding: '0',
+            top:'0',
+            left:'0',
+            width:'100%',
+            height:'100%',
+            overflow:'hidden' 
           }}>
 
           <source
@@ -58,19 +64,21 @@ const Main = () => {
             left: '50%', 
             top: '70%', 
             zIndex: '3', 
-            transform: 'translateX(-50%)'   
+            transform: 'translateX(-50%)',
+            fontFamily:'Montserrat Alternates',
+            textShadow: 
+              '2px 0 0 white, 0 2px 0 white, -2px 0 0 white, 0 -2px 0 white' 
           }}>
-          <h1 className="text-3xl font-semibold text-center text-white mt-[-50px] mb-8">
+          <h1 className="text-3xl font-semibold  text-center text-white mt-[-50px] mb-8">
             Time to plan the trip of your dreams...
           </h1>
         </div>
 
-        <div style={{ left: '50%', top: '20%'}}>
+        <div style={{ position: 'relative', top: '-200px', width: '325px', margin:'0 auto'   }}>
           <button 
-            style={{fontFamily:'poppins'}}  
+            style={{fontFamily:'Montserrat Alternates', padding: '15px', borderRadius:'25%', fontSize:'1em', border:'solid black 3px',   }}  
             onClick= {loginPageClick}
-            className="relative shadow-2xl hover:scale-125
-            hover:bg-opacity-50 shadow-white z-30 p-5 text-2xl text-white bg-blue-300 bg-opacity-70 rounded-xl mt-10">
+            >
             Click here to begin your adventure!
           </button>
         </div>
