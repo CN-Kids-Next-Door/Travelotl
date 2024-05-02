@@ -14,7 +14,6 @@
     "backend:start": "nodemon server/server.js",
     "frontend:start": "webpack serve --hot --progress",
     "start": "concurrently \"npm backend:start\" \"npm frontend:start\"",
-    "dev": "concurrently \"webpack serve --open\" \"nodemon server/server.js\""
   },
   "dependencies": {
     "@heroicons/react": "^2.1.3",
