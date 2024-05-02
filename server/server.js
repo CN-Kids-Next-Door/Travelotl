@@ -54,7 +54,7 @@ app
         return res.redirect("/success");
       }
     )
-    .post()
+    // .post()
     
 // 404 HANDLER
    .use( defaultErrorHandler )

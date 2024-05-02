@@ -7,8 +7,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-
-import { store } from './app/store';
+import { store } from './app/store.js';
 
 import App from './App.jsx';
 
@@ -21,7 +20,9 @@ const root = createRoot(document.getElementById('root'));
 root.render(
     // Wrap app in Provider component to pass store (access to state)
     <Provider store={store}>
+
         <App />
+
     </Provider>
     
 );

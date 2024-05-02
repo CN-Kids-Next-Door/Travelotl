@@ -6,9 +6,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { updateDestination } from '../../reducers/tripReducer';
-// import { updateForm } from '../../reducers/formReducer';
-
 const Destination = () => {
     // Get current destination state from Redux store
     const { destination } = useSelector((state) => state.trip);
