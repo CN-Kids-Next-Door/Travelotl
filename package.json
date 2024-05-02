@@ -9,10 +9,11 @@
   "private": false,
   "scripts": {
     "build": "webpack",
+    "dev": "concurrently \"webpack serve --open\" \"nodemon server/server.js\"",
+    "test": "jest",
     "backend:start": "nodemon server/server.js",
     "frontend:start": "webpack serve --hot --progress",
-    "start": "concurrently \"npm backend:start\" \"npm frontend:start\"",
-    "dev": "concurrently \"webpack serve --open\" \"nodemon server/server.js\""
+    "start": "concurrently \"npm backend:start\" \"npm frontend:start\""
   },
   "dependencies": {
     "@heroicons/react": "^2.1.3",
