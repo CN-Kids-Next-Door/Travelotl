@@ -15,6 +15,21 @@ const ItineraryPage = () => {
 
     return(
         <div>
+            <div className="min-h-screen flex justify-center items-center">
+      
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className="absolute min-w-screen min-h-screen"
+                    style={{height:'105vh', width: '115vw' }}>
+                    <source
+                        src={travelVideo}
+                        type="video/mp4" />
+                Your browser does not support the video tag.
+
+                </video>
+            </div>
             <Header/>
             <h2>Your Itinerary</h2>
             {(itinerary.itinerary) ? (
