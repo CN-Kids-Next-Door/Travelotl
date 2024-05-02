@@ -14,7 +14,8 @@ const Login = ({ toggle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [login, { isLoading, isError, error }] = useLoginMutation();
-
+    const [oauthLogin, { isLoading: oauthLoading, error: oauthError }] = useOauthMutation();
+    
     // Needed to navigate to different pathways
     const navigate = useNavigate();
 
@@ -46,6 +47,18 @@ const Login = ({ toggle }) => {
         console.error('Login failed:', err);
       }
    };
+
+  const handleOauthLogin = async ( code ) => {
+    try {
+        const userData = await oauthLogin({ code }).unwrap(); // Call the mutation with the provider data
+        console.log('Login successful', userData);
+        // Redirect or perform additional actions upon successful login
+    } catch (err) {
+        console.error('Error during OAuth login:', err);
+    }
+
+  };
+
    const CLIENT_ID = "fb26bcfe259d6f2f503c"
 
    useEffect(() => {
@@ -70,7 +83,8 @@ const Login = ({ toggle }) => {
       }
       getAccessToken()
     }
-   }, [])
+   }, []) 
+   
   function logIn () {
       window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
   }
