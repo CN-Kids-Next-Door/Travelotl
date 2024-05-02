@@ -1,38 +1,37 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { apiSlice } from "./apiSlice.js";
+const URL_AUTH = "auth";
 
-const initialState = {
-  userInfo: null,
-  token: null,
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
-};
-
-// Async thunk for logging in
-export const loginUser = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await axios.post('/auth/login', credentials);
-  return response.data; // Assuming the server responds with { userInfo, token }
+// MUTATION OPTIONS (e.g., ['/urlPath'] varies) for /auth FOR DRY
+const mutationOptions = (endpointPath, method = 'POST') => ({
+  query: (data) => ({
+    url: `/${URL_AUTH}/${endpointPath}`,
+    method: "POST",
+    ...(method === 'POST' && { body: data }) 
+  }),
 });
 
-const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {},
-  extraReducers(builder) {
-    builder
-      .addCase(loginUser.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.userInfo = action.payload.userInfo;
-        state.token = action.payload.token;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
-  },
+export const registerApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+
+    // MUTATION FOR USER REGISTRATION USING mutationOptions
+    register: builder.mutation(mutationOptions('register', 'POST')),
+
+    // MUTATION FOR USER LOGIN USING mutationOptions
+    login: builder.mutation(mutationOptions('login', 'POST')),
+
+    // MUTATION FOR USER LOGOUT USING mutationOptions
+    logout: builder.mutation(mutationOptions('logout', 'POST')),
+
+    // MUTATION FOR USER LOGOUT USING mutationOptions
+    oauth: builder.mutation(mutationOptions('oauth', 'POST')),
+
+  }),
 });
 
-export default authSlice.reducer;
+// DESTRUCTURING FOR NAMED IMPORTS
+export const {   
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useOauthMutation  
+} = registerApiSlice;

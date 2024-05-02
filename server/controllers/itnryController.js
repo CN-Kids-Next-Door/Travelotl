@@ -293,20 +293,41 @@ itnryController.deleteItnry = async (req, res, next) => {
 }
 
   // retrieveAll - To retrieve all trips saved for a specific user
-itnryController.retrieveAll = (req, res, next) => {
-  Itinerary.find({
-    "email": req.body.email,
-  })
-    .then (result => {
-      // console.log(result);
-      res.locals.allTrips = result;
-      console.log("All trips retrieved - retrieveAllTrips middleware");
-      return next();
-    })
-    .catch (err => {
-      console.log("could not retrieve all trips - retrieveAllTrips middleware");
-      console.error("retrieveAllTrips ERROR =>", err);
-    })
+itnryController.retrieveAll = async (req, res, next) => {
+
+
+
+  const { user_id, itnry_id } = req.params;
+  console.log( user_id, itnry_id );
+
+  const query = `
+    SELECT * 
+    FROM itinerary 
+    WHERE user_id = $1
+  `;
+
+  const values = [ user_id ]
+
+  try {
+    console.log("params", req.params , user_id)
+
+    const result = await db.query(query, values);
+
+    res.locals = result.rows
+
+    return next();
+  } catch (err) {
+    
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Internal Server Error');
+  }
+
+
+}
+
+itnryController.determineGetItnry = async (req, res, next) => {
+
+  return next();
 }
 
 module.exports = itnryController;

@@ -2,11 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
-    color:red
+    color: red;
 }
-
-//need to connect css in react
