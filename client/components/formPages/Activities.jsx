@@ -6,8 +6,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateActivities } from '../../reducers/tripReducer';
-import { updateForm } from '../../reducers/formReducer';
+// import { updateActivities } from '../../reducers/tripReducer';
+// import { updateForm } from '../../reducers/formReducer';
 
 const Activities = () => {
     // Get current activities state from Redux store

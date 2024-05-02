@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from './../../assets/Travelotl_Logo.png';
+import { useRegisterMutation, useOauthMutation } from './../../features/authSlice.js';
 
 // import Header from './Header.jsx';
 
@@ -16,6 +17,7 @@ const Register = ({ toggle }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [register, { isLoading, isSuccess, isError, error }] = useRegisterMutation(); 
 
   // Needed to navigate to different pathways
   const navigate = useNavigate();
@@ -26,28 +28,29 @@ const Register = ({ toggle }) => {
     - navigates back to login page
   */
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
-    // Make fetch request with submitted data
-    const res = await fetch('/auth/register', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          userInfo: {
-              firstName,
-              lastName,
-              username,
-              email,
-              password,
-          },
-      })
-    })
-    // Check for ok response and redirect back to login
-    if (res.ok) {
-      // const user = await res.json();
-      // console.log(user);
-      navigate('/login');
+
+    try{// Make fetch request with submitted data
+      await register({
+        userInfo: {
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+        }
+      }).unwrap();
+
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
+    } catch ( err ) {
+      console.error('Register failed:', err);
     }
   };
+
   const CLIENT_ID = "fb26bcfe259d6f2f503c"
 
   function logIn () {
@@ -114,10 +117,15 @@ const Register = ({ toggle }) => {
                     </label>
                     <br/>
 
-                    <button type="submit">
-                        Register / Signup
+                    <button type="submit" disabled={isLoading}>
+                      {isLoading ? 'Registering...' : 'Register / Signup'}
                     </button>
-
+                    {isError && <p>Error: {error?.data?.message || 'Failed to register'}</p>}
+                    {isSuccess && (
+                      <div>
+                        <p>Registration successful!</p>
+                      </div>
+                    )}
                 </form>
                 <button 
                   type="button" 
