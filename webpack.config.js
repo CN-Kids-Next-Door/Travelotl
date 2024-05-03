@@ -60,13 +60,9 @@ module.exports = {
     port: 8080,
     proxy:[
       {
-        context: ['/api'],
+        context: ['/auth', '/api'],
         target: 'http://localhost:3000'
       },
-      {
-        context: ['/auth'],
-        target: 'http://localhost:3000'
-      }
     ]
   },
   plugins: [

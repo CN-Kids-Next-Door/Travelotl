@@ -1,3 +1,8 @@
+/**
+ * @module Header
+ * @description header component that has navigation links
+ */
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
