@@ -44,6 +44,11 @@ function Header() {
               Single Page Form
             </NavLink>
           </li>
+          <li className="mr-6">
+            <NavLink to="/test" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
+              test
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>

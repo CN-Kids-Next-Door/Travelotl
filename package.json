@@ -13,9 +13,10 @@
     "test": "jest",
     "backend:start": "nodemon server/server.js",
     "frontend:start": "webpack serve --hot --progress",
-    "start": "concurrently \"npm backend:start\" \"npm frontend:start\""
+    "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\""
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.3",
     "@react-oauth/google": "^0.12.1",
     "@react-spring/web": "^9.7.3",

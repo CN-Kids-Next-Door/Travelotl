@@ -16,6 +16,7 @@ import ItinerariesPage1 from './components/itineraries/ItinerariesPage1.jsx';
 import SuccessGit from './components/success.jsx';
 import TabbedForm from './components/formPages/TabbedForm.jsx';
 import SinglePageForm from './components/formPages/SinglePageForm.jsx';
+import Test from './components/itinerariesTest/Test.jsx';
 
 const App = () => {
     return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route path='/success' element={<SuccessGit />}/>
             <Route path='/tabbedform' element={<TabbedForm />}/>
             <Route path='/singlepageform' element={<SinglePageForm />}/>
+            <Route path='/test' element={<Test />}/>
           </Routes>
         </BrowserRouter>
     );

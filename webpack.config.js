@@ -36,7 +36,10 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        use: ['file-loader']
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[name][ext]' 
+        }
       },
       {
         test: /\.(mov|mp4)$/,
@@ -52,12 +55,13 @@ module.exports = {
     ],
   }, 
   devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
-    },
-    historyApiFallback: true,
+    hot: true,
     port: 8080,
+    historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, '/client'),
+      watch: true, 
+    },
     proxy:[
       {
         context: ['/api'],
