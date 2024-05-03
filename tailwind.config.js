@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: ['./client/pages/**/*.html', './client/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./client/components/**/*.html', './client/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -21,7 +21,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
+    // require('@tailwindcss/forms'),
   ],
 };
 

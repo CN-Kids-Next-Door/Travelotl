@@ -75,9 +75,11 @@ const Main = () => {
         </div>
 
         <div style={{ position: 'relative', top: '-200px', width: '325px', margin:'0 auto'   }}>
-          <button 
-            style={{fontFamily:'Montserrat Alternates', padding: '15px', borderRadius:'25%', fontSize:'1em', border:'solid black 3px',   }}  
-            onClick= {loginPageClick}
+          <button
+            style={{fontFamily:'Montserrat Alternates'}}  
+            onClick= {loginPageClick}  
+            className="relative shadow-2xl hover:scale-125
+                hover:bg-opacity-50 shadow-white z-30 p-5 text-2xl text-white bg-blue-300 bg-opacity-70 rounded-xl mt-10"
             >
             Click here to begin your adventure!
           </button>
