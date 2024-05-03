@@ -1,83 +1,43 @@
-/**
- * @module Main
- * @description landing page component (homepage)
- */
-
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Logo from '../assets/Travelotl_Logo.png'
-// import Header from './Header.jsx';
-import travelVideo from '../assets/AdobeStock_118726863_travel_Preview.mp4'
+import Logo from '../assets/Travelotl_Logo.png';
+import travelVideo from '../assets/AdobeStock_118726863_travel_Preview.mp4';
+import Header from './Header.jsx';
 
 const Main = () => {
   const navigate = useNavigate();
 
-  function loginPageClick (){
-      navigate('/login');
+  function loginPageClick() {
+    navigate('/login');
   };
 
-  return(
+  return (
     <>
-      <header className="flex flex-col items-center justify-center min-h-screen size-1 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          className= "absolute object-top z-10 min-w-screen min-h-screen"
-          style={{
-            height:'100vh', 
-            width: '100vw' 
-          }}>
-
-          <source
-            src={travelVideo}
-            type="video/mp4"/>
-
+      <Header />
+      <div className="relative min-h-screen min-w-screen bg-black">
+        {/* Apply a top-[4rem] to give space for the header. Adjust this value based on your actual header's height */}
+        <video autoPlay muted loop className="fixed top-[4rem] left-0 w-full h-[calc(100vh-4rem)] object-cover z-0">
+          <source src={travelVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
-        <div>
-          <img 
-            src={Logo} 
-            alt='Travolotl Logo'
-            style={{
-              height: '200px', 
-              width: '300px', 
-              position : 'absolute', 
-              left: '10%', 
-              top: '1%', 
-              zIndex: '3', 
-              transform: 'translateX(-50%)'   
-            }}
-          />
-        </div>
+        <img src={Logo} alt='Travolotl Logo' className="absolute h-[200px] w-[300px] left-[10%] top-[5rem] z-30 -translate-x-1/2" />
 
-        <div 
-          style={{
-            position : 'absolute', 
-            left: '50%', 
-            top: '70%', 
-            zIndex: '3', 
-            transform: 'translateX(-50%)'   
-          }}>
-          <h1 className="text-3xl font-semibold text-center text-white mt-[-50px] mb-8">
+        <div className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-black/50 p-5 rounded-lg">
+          <h1 className="text-4xl font-bold text-center text-white">
             Time to plan the trip of your dreams...
           </h1>
         </div>
 
-        <div style={{ left: '50%', top: '20%'}}>
-          <button 
-            style={{fontFamily:'poppins'}}  
-            onClick= {loginPageClick}
-            className="relative shadow-2xl hover:scale-125
-            hover:bg-opacity-50 shadow-white z-30 p-5 text-2xl text-white bg-blue-300 bg-opacity-70 rounded-xl mt-10">
-            Click here to begin your adventure!
+        <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 w-[325px] h-[325px] flex flex-col items-center justify-center">
+          <button className="mt-10 font-montserrat font-medium text-base leading-none py-3.5 px-4 rounded-full border-3 border-black"
+              onClick={loginPageClick}>
+              Click here to begin your adventure!
           </button>
         </div>
-
-      </header>
+      </div>
     </>
-  )
+  );
 };
 
-export default Main; 
+export default Main;

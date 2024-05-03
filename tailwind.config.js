@@ -4,6 +4,9 @@ module.exports = {
   content: ['./client/pages/**/*.html', './client/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      fontFamily:{
+        'montserrat': ['Montserrat Alternates', 'sans-serif']
+      },
       colors: {
         google: {
           'text-gray': '#3c4043',
@@ -20,7 +23,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };
 
 

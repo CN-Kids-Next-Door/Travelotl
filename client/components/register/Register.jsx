@@ -1,133 +1,74 @@
-/**
- * @module Register
- * @description stateful component that handles registering a new user
- */
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from './../../assets/Travelotl_Logo.png';
-
-// import Header from './Header.jsx';
+import { useRegisterMutation, useOauthMutation } from './../../features/authSlice.js';
 
 const Register = ({ toggle }) => {
-  // Initialize empty state
+  const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [register, { isLoading, isError, error }] = useRegisterMutation();
 
-  // Needed to navigate to different pathways
   const navigate = useNavigate();
 
-  /* handleSubmit: asynchoronous event handling function
-    - handles the submission of the registration form
-    - makes a POST request to the server with inputted name, email, and password
-    - navigates back to login page
-  */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Make fetch request with submitted data
-    const res = await fetch('/auth/register', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          userInfo: {
-              firstName,
-              lastName,
-              username,
-              email,
-              password,
-          },
-      })
-    })
-    // Check for ok response and redirect back to login
-    if (res.ok) {
-      // const user = await res.json();
-      // console.log(user);
-      navigate('/login');
+    try {
+      await register({ username, firstName, lastName, email, password }).unwrap();
+      navigate('/');
+    } catch (err) {
+      console.error('Registration failed:', err);
     }
   };
-  const CLIENT_ID = "fb26bcfe259d6f2f503c"
 
-  function logIn () {
-    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
-  }
+  return (
+    <div className="min-h-screen flex justify-center items-center bg-cover bg-center p-4" style={{ backgroundImage: 'url(path_to_your_image.jpg)' }}>
 
-  return(
-    <div className="min-h-screen flex justify-center items-center">
-            <img src={Logo} style={{height: '200px', width: '300px', position : 'absolute', left: '10%', top: '1%', zIndex: '3', transform: 'translateX(-50%)' }} alt='Travelotl Logo'/>
-            <header className="flex items-center justify-center h-screen overflow-hidden" />
-
-            <div style={{position : 'absolute', left: '20%', top: '50%', zIndex: '3', transform: 'translateX(-50%)'}}>
-                <h2 className="text-3xl font-semibold text-center text-gray mt-[-50px] mb-8">
-                    Register
-                </h2>
-                <form id='registerForm' onSubmit={handleSubmit}>
-                    <label>
-                        First Name:
-                        <input 
-                            type='text' 
-                            value={firstName} 
-                            onChange={(e) => setFirstName(e.target.value)} 
-                            placeholder='Codename'
-                        />
-                    </label>
-                    <br/>
-                    <label>
-                        Last Name:
-                        <input 
-                            type='text' 
-                            value={lastName} 
-                            onChange={(e) => setLastName(e.target.value)} 
-                            placeholder='Kids Next Door'
-                        />
-                    </label>
-                    <br/>
-                    <label>
-                        Username:
-                        <input 
-                            type='text' 
-                            value={username} 
-                            onChange={(e) => setUsername(e.target.value)} 
-                            placeholder='CN: KND'
-                        />
-                    </label>
-                    <br/>
-                    <label>
-                        Email:
-                        <input 
-                            type='email' 
-                            value={email} onChange={(e) => setEmail(e.target.value)} 
-                            placeholder='codesmith@test.com'
-                        />
-                    </label>
-                    <br/>
-                    <label>
-                        Password:
-                        <input 
-                            type='password' 
-                            value={password} 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            placeholder='Not 1234'
-                        />
-                    </label>
-                    <br/>
-
-                    <button type="submit">
-                        Register / Signup
-                    </button>
-
-                </form>
-                <button 
-                  type="button" 
-                  onClick={ toggle }
-                >
-                  Go to Login Page
-                </button>
-            </div>
-        </div>
-    );
+      <div className="absolute left-[70%] top-[55%] -translate-x-1/2 z-30 transform -translate-y-1/2 rotate-[5.7deg]">
+        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-8">Register</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block mb-2">
+              Username:
+              <input type='text' value={username} onChange={(e) => setUsername(e.target.value)}
+                     placeholder='Username' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+            </label>
+            <label className="block mb-2">
+              First Name:
+              <input type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                     placeholder='First Name' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+            </label>
+            <label className="block mb-2">
+              Last Name:
+              <input type='text' value={lastName} onChange={(e) => setLastName(e.target.value)}
+                     placeholder='Last Name' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+            </label>
+            <label className="block mb-2">
+              Email:
+              <input type='email' value={email} onChange={(e) => setEmail(e.target.value)}
+                     placeholder='Email' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+            </label>
+            <label className="block mb-2">
+              Password:
+              <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}
+                     placeholder='Password' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+            </label>
+            <button type="submit" disabled={isLoading}
+              className={`btn btn-primary w-full max-w-xs ${isLoading ? 'loading' : ''} transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg outline outline-2 outline-blue-500`}>
+              {isLoading ? 'Registering...' : 'Register'}
+            </button>
+            {isError && <p className="text-red-500">Error: {error?.data?.message || 'Registration failed'}</p>}
+          </div>
+          <button type="button" onClick={toggle}
+                  className="btn btn-link w-full max-w-xs mt-4 underline text-blue-500 hover:text-blue-700 focus:outline-none rounded-lg outline outline-2 outline-blue-500">
+            Already have an account? Log in
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Register;
