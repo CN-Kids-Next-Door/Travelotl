@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader.jsx';
 
-
+import { updateItinerary } from '../../reducers/itineraryReducer.js';
+import { updateGroupDescription } from '../../reducers/tripReducer.js';
 
 const GroupDescription = () => {
     // Get applicable state from Redux store
