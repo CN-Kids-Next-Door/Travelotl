@@ -7,6 +7,8 @@ import App from '../../client/App.jsx';
 import Login from '../../client/components/register/Login.jsx';
 import Register from '../../client/components/register/Register.jsx';
 
+import { store } from '../../client/app/store.js';
+
 describe('Unit tests for React components', () => {
     describe('App', () => {
         it('renders App component', () => {
@@ -29,9 +31,11 @@ describe('Unit tests for React components', () => {
     describe('Login', () => {
         it('renders Login component', () => {
             render(
-                <BrowserRouter>
-                  <Login />
-                </BrowserRouter>
+                <Provider store={store}>
+                    <BrowserRouter>
+                      <Login />
+                    </BrowserRouter>
+                </Provider>
             );
 
             // checks for email and password input fields
@@ -43,9 +47,11 @@ describe('Unit tests for React components', () => {
     describe('Register', () => {
         it('renders Register component', () => {
             render(
-                <BrowserRouter>
-                  <Register />
-                </BrowserRouter>
+                <Provider store={store}>
+                    <BrowserRouter>
+                      <Register />
+                    </BrowserRouter>
+                </Provider>
             );
 
             // checks for name, username, and email input fields
