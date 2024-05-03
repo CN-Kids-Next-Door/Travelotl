@@ -1,9 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 import App from '../../client/App.jsx';
 import Login from '../../client/components/register/Login.jsx';
+import Register from '../../client/components/register/Register.jsx';
 
 describe('Unit tests for React components', () => {
     describe('App', () => {
@@ -17,6 +19,7 @@ describe('Unit tests for React components', () => {
             const heading = screen.getByRole('heading');
             const button = screen.getByRole('button');
 
+            // check for website logo, correct heading, and navigation button
             expect(img).toBeVisible;
             expect(heading.textContent).toBe('Time to plan the trip of your dreams...');
             expect(button.textContent).toBe('Click here to begin your adventure!');
@@ -25,23 +28,31 @@ describe('Unit tests for React components', () => {
 
     describe('Login', () => {
         it('renders Login component', () => {
-            render(<Login />);
+            render(
+                <BrowserRouter>
+                  <Login />
+                </BrowserRouter>
+            );
 
-            // shows the html rendered by the component in the terminal
-            screen.debug();
+            // checks for email and password input fields
+            const emailInput = screen.getByRole('textbox');
+            const passwordInput = screen.getByLabelText(/password/i);
+        });
+    });
 
-            // Should have email input
-            // Should have password input
-            // Should have login button
-            // Should have signup button
+    describe('Register', () => {
+        it('renders Register component', () => {
+            render(
+                <BrowserRouter>
+                  <Register />
+                </BrowserRouter>
+            );
 
-            // const img = screen.getByAltText('Travolotl Logo');
-            // const heading = screen.getByRole('heading');
-            // const button = screen.getByRole('button');
-
-            // expect(img).toBeVisible;
-            // expect(heading.textContent).toBe('Time to plan the trip of your dreams...');
-            // expect(button.textContent).toBe('Click here to begin your adventure!');
+            // checks for name, username, and email input fields
+            const firstnameInput = screen.getByRole('textbox', { name: 'First Name:'});
+            const lastnameInput = screen.getByRole('textbox', { name: 'Last Name:'});
+            const username = screen.getByRole('textbox', { name: 'Username:'});
+            const email = screen.getByRole('textbox', { name: 'Email:'});
         });
     });
 });
