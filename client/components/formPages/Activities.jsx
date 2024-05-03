@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { updateActivities } from '../../reducers/tripReducer.js';
 const Activities = () => {
     // Get current activities state from Redux store
     const { activities } = useSelector((state) => state.trip);
