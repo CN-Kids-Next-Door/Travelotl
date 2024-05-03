@@ -2,10 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const URL_APIBASE = `http://localhost:8080/`;
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `/`,
+    baseUrl: URL_APIBASE,
 
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().authState.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -15,8 +15,8 @@ const baseQuery = fetchBaseQuery({
   })
 
 export const apiSlice = createApi({
-  baseQuery,
-  reducerPath: `${URL_APIBASE}`,
+  baseQuery: baseQuery,
+  reducerPath: `api`,
   endpoints: (builder) => ({}),
 });
 

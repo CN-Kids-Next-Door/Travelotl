@@ -1,20 +1,15 @@
-/**
- * @module Login
- * @description stateful component that handles login functionality
- */
-
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from './../../assets/Travelotl_Logo.png';
 import { useLoginMutation, useOauthMutation } from './../../features/authSlice.js';
 
-// import Header from './Header.jsx';
 const Login = ({ toggle }) => {
     // Initialize empty state
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [login, { isLoading, isError, error }] = useLoginMutation();
-
+    const [oauthLogin, { isLoading: oauthLoading, error: oauthError }] = useOauthMutation();
+    
     // Needed to navigate to different pathways
     const navigate = useNavigate();
 
@@ -46,6 +41,18 @@ const Login = ({ toggle }) => {
         console.error('Login failed:', err);
       }
    };
+
+  const handleOauthLogin = async ( code ) => {
+    try {
+        const userData = await oauthLogin({ code }).unwrap(); // Call the mutation with the provider data
+        console.log('Login successful', userData);
+        // Redirect or perform additional actions upon successful login
+    } catch (err) {
+        console.error('Error during OAuth login:', err);
+    }
+
+  };
+
    const CLIENT_ID = "fb26bcfe259d6f2f503c"
 
    useEffect(() => {
@@ -70,59 +77,60 @@ const Login = ({ toggle }) => {
       }
       getAccessToken()
     }
-   }, [])
+   }, []) 
+   
   function logIn () {
       window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
   }
   function registerGH() {
       window.location.assign("")
   }
-  return(
-  <div className="min-h-screen flex justify-center  items-center">
-    <img src={Logo} style={{height: '200px', width: '300px', position : 'absolute', left: '10%', top: '1%', zIndex: '3', transform: 'translateX(-50%)'   }} alt= 'Travolotl Logo'/>  
+    return (
+<div className="min-h-screen flex justify-center items-center bg-cover bg-center p-4" style={{ backgroundImage: 'url(path_to_your_image.jpg)' }}>
+  <div className="absolute inset-0 bg-white bg-opacity-90"></div>  {/* Overlay for opacity */}
+
+  <img src={Logo} className="h-48 w-72 absolute left-10 top-1 -translate-x-1/2 z-20" alt="Travolotl Logo"/>  
+
+  <div className="absolute left-[70%] top-[50%] -translate-x-1/2 z-30 transform -translate-y-1/2 rotate-[5.7deg]">
     
-    <header className="flex items-center justify-center h-screen overflow-hidden" />
-    
+    <h2 className="text-3xl font-semibold text-center text-gray-700 mb-8">
+      Login
+    </h2>
 
-      
-    <div style={{position : 'absolute', left: '20%', top: '50%', zIndex: '3', transform: 'translateX(-50%)'   }}>
-      <h2 className="text-3xl font-semibold text-center text-gray mt-[-50px] mb-8">
-        Login
-      </h2>
-      {/* <Header /> */}
-      <form onSubmit={handleSubmit}>
-          <label>
-              Email:
-              <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='codesmith@test.com'/>
-          </label>
-          <br />
-          <label>
-              Password:
-              <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Not 1234'/>
-          </label>
-          <br />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
-          </button>
-          {isError && <p>Error: {error?.data?.message || 'Login failed'}</p>}
-
-          <button onClick = {logIn}>
-            Login Through Github
-          </button>
-
-      </form>
-
-      <button 
-          type="button" 
-          onClick={toggle}>
-          Go to Signup Page
-        </button>
-
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block mb-2">
+          Email:
+          <input type='email' value={email} onChange={(e) => setEmail(e.target.value)}
+                 placeholder='codesmith@test.com' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+        </label>
+      </div>
+      <div>
+        <label className="block mb-2">
+          Password:
+          <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}
+                 placeholder='Not 1234' className="input input-bordered w-full max-w-xs rounded-lg outline outline-2 outline-blue-500"/>
+        </label>
+      </div>
+      <button type="submit" disabled={isLoading}
+        className={`btn btn-primary w-full max-w-xs ${isLoading ? 'loading' : ''} transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg outline outline-2 outline-blue-500`}>
+        {isLoading ? 'Logging in...' : 'Login'}
+      </button>
+      {isError && <p className="text-red-500">Error: {error?.data?.message || 'Login failed'}</p>}
+      <button onClick={logIn}
+              className="btn btn-secondary w-full max-w-xs mt-4 transition duration-150 ease-in-out hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg outline outline-2 outline-gray-500">
+        Login Through Github
+      </button>
+      <button type="button" onClick={toggle}
+              className="btn btn-link w-full max-w-xs mt-4 underline text-blue-500 hover:text-blue-700 focus:outline-none rounded-lg outline outline-2 outline-blue-500">
+        Go to Signup Page
+      </button>
+    </form>
   </div>
-  );
+</div>
+
+    
+    );
 };
-//add a button that sends the code and state to the backend
-//create a seperate folder named oauth
-//import methods of oauth here
+
 export default Login;
