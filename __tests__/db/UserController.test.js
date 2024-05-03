@@ -6,7 +6,7 @@ const request = require('supertest');
 const app = require('../../server/server.js');
 
 
-beforeAll(done => {
+afterAll(done => {
     done()
 })
 
@@ -45,21 +45,30 @@ describe('getUsersController', () => {
 //http request tests
 describe('POST to /auth/login', () => {
     //it should be able to login in a user by comparing info
-    it('should register a user to the database', async () => {
+    it('should login a user by comparing password in db and return user info obj', async () => {
         const userData = [{"userInfo": { "email": "test@test.com", "username": "iamuser", "password": "password", "firstName": "name", "lastName": "last"}, "token": "NOTOKEN"}];
 
+        const req = {username: 'iamuser', password: 'password'};
+       
         const response = await request(app)
             .post('/auth/login')
-            .send(userData);
+            .send(req);
 
 
-        expect(response.status).toBe(201);
+        expect(response.status).toBe(200);
+        expect(response.body.token).toBeDefined();
 
-        const userDataInDB = await db.query('SELECT * FROM users WHERE username = $1;', [userData.userInfo.username]);
-        expect(usersInDatabase.rows.length).toBe(1);
-        expect(usersInDatabase.rows[0].userInfo.email).toBe(userData.userInfo.email);
+        const user = response.body.user;
+        console.log('user:', user);
+        expect(user.username).toBe(req.username)
+        expect(user.password).toBe(req.password)
+
+        
     })
 })
     
 
     //it should be able to register a user by adding to the database
+    /*const userDataInDB = await db.query('SELECT * FROM users WHERE username = $1;', [userData.userInfo.username]);
+        expect(usersInDatabase.rows.length).toBe(1);
+        expect(usersInDatabase.rows[0].userInfo.email).toBe(userData.userInfo.email); */
