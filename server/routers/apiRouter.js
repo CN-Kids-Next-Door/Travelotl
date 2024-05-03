@@ -13,6 +13,12 @@ apiRouter
   )
 
 // ['/api/:user_id/itnry'] ENDPOINT STARTS HERE
-  .use('/:user_id/itnry', itnryRouter);
+  .use('/:user_id/itnry', 
+  (req, res, next) => {
+    console.log('User ID at apiRouter:', req.params.user_id);
+    next();
+  },
+  itnryRouter
+);
 
 module.exports = apiRouter;

@@ -1,23 +1,23 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+const URL_APIBASE = `http://localhost:8080/`;
 
-export const apiSlice = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
+const baseQuery = fetchBaseQuery({
+    baseUrl: URL_APIBASE,
+
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().authState.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
       return headers;
     },
-  }),
-  endpoints: (builder) => ({
-    getSomething: builder.query({
-      query: () => '/something',
-    }),
-    // Additional endpoints can be added here
-  }),
+
+  })
+
+export const apiSlice = createApi({
+  baseQuery: baseQuery,
+  reducerPath: `api`,
+  endpoints: (builder) => ({}),
 });
 
-export const { useGetSomethingQuery } = apiSlice;
+export default apiSlice;
