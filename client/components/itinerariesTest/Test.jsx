@@ -1,5 +1,6 @@
 import { CodeBracketIcon, EllipsisVerticalIcon, FlagIcon, StarIcon } from '@heroicons/react/20/solid'
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import ItinerariesPopOver from './itinerariesPopOver.jsx'
 // import { Menu, Transition } from '@headlessui/react';
 
@@ -25,23 +26,16 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
+import ItinerariesList from '../itinerariesTest/cards/ItinerariesList.jsx';
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+import {
+  useGetItinerariesQuery,
+  useAddItineraryMutation
+} from '../../features/itnrySlice.js';
 
-const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Profile', href: '#', current: false },
-  { name: 'Resources', href: '#', current: false },
-  { name: 'Company Directory', href: '#', current: false },
-  { name: 'Openings', href: '#', current: false },
-]
+
 const userNavigation = [
-  // { name: 'Your Profile', href: '#' },
+  { name: 'Your Profile', href: '#' },
   // { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
@@ -51,6 +45,26 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+const { firstname: firstName, lastname: lastName, email: userEmail, profile_image } = useSelector(state => state.authState.userInfo)
+
+const user = {
+  name: `${firstName} ${lastName}`,
+  email: `${userEmail}`,
+  test: 'test',
+  imageUrl:
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+}
+
+const userId = 26; // Example userId, adjust according to your app logic
+const {
+  data: itineraries,
+  isLoading,
+  isError,
+  error
+} = useGetItinerariesQuery({ userId }, { skip: !userId });
+
+
+
   return (
     <>
       {/*
@@ -66,18 +80,23 @@ export default function Example() {
 
         <main className="-mt-24 pb-8">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h1 className="sr-only">Page title</h1>
+            <h1 className="sr-only">Travelotl: Plan the trip of your dreams...</h1>
+
             {/* Main 3 column grid */}
             <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+
+
               {/* Left column */}
               <div className="grid grid-cols-1 gap-4 lg:col-span-2">
                 <section aria-labelledby="section-1-title">
                   <h2 className="sr-only" id="section-1-title">
-                    Section title
+                    Filter
                   </h2>
                   <div className="overflow-hidden rounded-lg bg-white shadow">
                     <div className="p-6">{/* Your content */}</div>
-                    <p> CONTENT1</p>
+                    <div className="itinerary-page">
+                      <ItinerariesList itineraries={itineraries} />
+                    </div>
                   </div>
                 </section>
               </div>
@@ -86,7 +105,7 @@ export default function Example() {
               <div className="grid grid-cols-1 gap-4">
                 <section aria-labelledby="section-2-title">
                   <h2 className="sr-only" id="section-2-title">
-                    Section title
+                    Display
                   </h2>
                   <div className="overflow-hidden rounded-lg bg-white shadow">
                     <div className="p-6">{/* Your content */}</div>
@@ -94,6 +113,8 @@ export default function Example() {
                   </div>
                 </section>
               </div>
+
+
             </div>
           </div>
         </main>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ItineraryCardEdit from './ItineraryCardEdit.jsx';
+import ItineraryCardEdit from '../../itineraries/ItineraryCardEdit.jsx';
 
 function ItineraryCard({ itinerary }) {
   const [isEditMode, setIsEditMode] = useState(false);
