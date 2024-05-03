@@ -46,9 +46,9 @@ function ItineraryCard1({ itinerary }) {
       <div className="prose col-span-2 flex flex-col justify-start" dangerouslySetInnerHTML={{ __html: itinerary.itinerary_ai_preamble }} />
       
 
-      {/* <div className="prose col-span-2 flex flex-col justify-start">
+      <div className="prose col-span-2 flex flex-col justify-start">
         {itinerary.itinerary_ai_json && renderItineraryDetails(itinerary.itinerary_ai_json)}
-      </div> */}
+      </div>
       
     </div>
   );
