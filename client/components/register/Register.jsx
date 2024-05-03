@@ -16,7 +16,8 @@ const Register = ({ toggle }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register({ username, firstName, lastName, email, password }).unwrap();
+      await register({
+        userInfo: { username, firstName, lastName, email, password }}).unwrap();
       navigate('/');
     } catch (err) {
       console.error('Registration failed:', err);
