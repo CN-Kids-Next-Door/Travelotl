@@ -57,7 +57,7 @@ itnryController.buildTrip = async (req, res, next) => {
             activity: string,
             description: string,
             address: string,
-            cost: number,
+            cost: number,  
           }
         }
       }

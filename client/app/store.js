@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './../features/apiSlice.js';
 import authStateSlice from './../features/state_authSlice.js'; 
 import itnryStateSlice from './../features/state_itnrySlice.js';
-import authReducer from './../features/authSlice.js';
+import { injectUserIdMiddleware, apiCallLogMiddleware } from './middleware';
 
 // REDUX STORE
 export const store = configureStore({
@@ -12,10 +12,10 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     authState: authStateSlice,
     itnryState: itnryStateSlice,
-    auth: authStateSlice,
-
-
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(apiSlice.middleware),
+      getDefaultMiddleware()
+        .concat( apiSlice.middleware )
+        .concat( injectUserIdMiddleware )
+        .concat( apiCallLogMiddleware ),
 })
