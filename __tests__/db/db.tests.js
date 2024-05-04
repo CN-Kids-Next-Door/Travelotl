@@ -37,7 +37,7 @@ afterAll(() => {
     pool.end();
 })
 
-//test to creck connection
+//test to check connection
 describe('Postgres DB Connection', () => {
     //it block
     it('should successfully connect to db with correct info', async () => {
@@ -49,5 +49,3 @@ describe('Postgres DB Connection', () => {
         client.end();
     })
 })
-
-//it block

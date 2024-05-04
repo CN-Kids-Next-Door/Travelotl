@@ -114,3 +114,5 @@ app
 
 //START SERVER COMMAND
 startServer( app, PORT, HOST );
+
+module.exports = app;
