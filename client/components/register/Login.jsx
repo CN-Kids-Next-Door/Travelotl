@@ -42,7 +42,8 @@ const Login = ({ toggle }) => {
       } catch ( err ) {
         console.error('Login failed:', err);
       }
-   };
+    }
+   
 
     const handleOauthLogin = async (code, email) => {
         try {
