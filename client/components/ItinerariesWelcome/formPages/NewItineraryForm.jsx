@@ -1,23 +1,42 @@
 // SinglePageForm.jsx
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Modal from './Form/Modal.js';
 import TripForm from './Form/TripForm.js';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SinglePageForm = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
 
     const handleToggleModal = () => setModalOpen(!modalOpen);
+    const user = useSelector((state) => state.authState.userInfo)
+    const userId = user ? user.user_id : null;
 
     const handleFormSubmit = (formData) => {
         setLoading(true);
         
-        // Simulate form submission
-        setTimeout(() => {
-            console.log('Form submitted:', formData);
+        axios.post(`api/${userId}/itnry`, formData)
+        .then((response) => {
+            console.log('Form submitted successfully:', response.data);
             setLoading(false);
-            handleToggleModal(); // Close the modal after submission
-        }, 5000);
+            handleToggleModal();
+            navigate('/itinerary1');
+        })
+        .catch((error) => {
+            console.error('Error submitting data in newitnyform:', error);
+            setLoading(false);
+        })
+
+        // Simulate form submission
+        // setTimeout(() => {
+        //     console.log('Form submitted:', formData);
+        //     setLoading(false);
+        //     handleToggleModal(); // Close the modal after submission
+        //     navigate('/itinerary1');
+        // }, 5000);
     };
 
     return (

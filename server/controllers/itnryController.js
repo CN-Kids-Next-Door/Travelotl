@@ -24,6 +24,9 @@ const itnryController = {
 
   // buildTrip - To fetch itinerary from API request to Open AI
 itnryController.buildTrip = async (req, res, next) => {
+
+  console.log('here i am in build trip');
+  
   const { 
     user_id,
     location_destination,
