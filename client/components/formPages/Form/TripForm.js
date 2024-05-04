@@ -59,6 +59,7 @@ const TripForm = ({ onSubmit, loading }) => {
                 travelers,
                 activities
             };
+            console.log('form data:', formData)
             onSubmit(formData);
         }
     };
