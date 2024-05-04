@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { useTransition, animated } from '@react-spring/web';
 
 import Header from './Header.jsx';
+
 import Destination from './formPages/Destination.jsx';
 import Dates from './formPages/Dates.jsx';
 import Activities from './formPages/Activities.jsx';
@@ -23,7 +24,8 @@ const AnimatedRoutes = () => {
     const location = useLocation();
 
     // Retrieve the form page state from Redux store
-    const pageName = useSelector((state) => state.form.page);
+    // const pageName = useSelector((state) => state.form.page);
+    const pageName = useSelector((state) => state.form ? state.form.page : 'defaultPage');
 
     const pages = {
         'destination': <Destination />,
