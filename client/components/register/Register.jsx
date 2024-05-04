@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from './../../assets/Travelotl_Logo.png';
+import Logo from './../../assets/Travelotl_Logo_white.png';
 import { useRegisterMutation, useOauthMutation } from './../../features/authSlice.js';
 
 const Register = ({ toggle }) => {
@@ -37,7 +37,7 @@ const Register = ({ toggle }) => {
 
 <img src={Logo} alt='Travolotl Logo' className="absolute h-[200px] w-[300px] left-[10%] top-[1rem] z-30 -translate-x-1/2" />
 
-      <div className="absolute left-[65%] top-[55%] -translate-x-1/2 z-30 transform -translate-y-1/2 rotate-[5.7deg]">
+      <div className="absolute left-[65%] top-[56%] -translate-x-1/2 z-30 transform -translate-y-1/2 rotate-[5.7deg]">
         <h2 style={{textShadow: 
               '2px 0 0 white, 0 2px 0 white, -2px 0 0 white, 0 -2px 0 white' }} 
               className="relative top-[1em] text-3xl font-semibold font-montserrat text-center text-gray-700 mb-8">Register</h2>
