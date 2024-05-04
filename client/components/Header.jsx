@@ -28,7 +28,7 @@ function Header() {
           </li> */}
           <li className="mr-6">
             <NavLink to="/itinerary1" className={({ isActive }) => isActive ? "text-blue-300 font-montserrat hover:text-blue-200" : "hover:text-blue-200"}>
-              View Large Itineraries
+              Itineraries
             </NavLink>
           </li>
 
