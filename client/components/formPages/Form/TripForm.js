@@ -45,7 +45,7 @@ const TripForm = ({ onSubmit, loading }) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
+//connect form data to backend
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFields()) {
