@@ -20,11 +20,6 @@ function Header() {
             </NavLink>
           </li>
           <li className="mr-6">
-            <NavLink to="/form" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
-              Form
-            </NavLink>
-          </li>
-          <li className="mr-6">
             <NavLink to="/itinerary" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
               Itinerary
             </NavLink>
@@ -40,15 +35,16 @@ function Header() {
             </NavLink>
           </li>
           <li className="mr-6">
-            <NavLink to="/tabbedform" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
-              Tabbed Form
+            <NavLink to="/newitineraryform" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
+              New Itinerary Form
             </NavLink>
           </li>
           <li className="mr-6">
-            <NavLink to="/singlepageform" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
-              Single Page Form
+            <NavLink to="/itinerarieswelcome" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
+              Itineraries Welcome
             </NavLink>
           </li>
+
           <li className="mr-6">
             <NavLink to="/test" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
               test
