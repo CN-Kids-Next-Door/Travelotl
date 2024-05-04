@@ -20,15 +20,15 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
               </div>
 
               {/* Search Functionality */}
-              <div className="w-full max-w-xs px-8">
+              <div className="w-full font-montserrat max-w-xs px-8">
                 <label htmlFor="search" className="sr-only">Search</label>
-                <div className="relative text-white focus-within:text-gray-600">
+                <div className="relative font-montserrat text-white focus-within:text-gray-600">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                     <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <input
                     id="search"
-                    className="block w-full rounded-md border-0 bg-white/20 py-1.5 pl-10 pr-3 text-white placeholder:text-white focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 bg-white/20 py-1.5 pl-10 pr-3 text-white placeholder:text-white focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 font-montserrat sm:text-sm sm:leading-6"
                     placeholder="Search"
                     type="search"
                     name="search"
@@ -38,7 +38,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
 
               {/* Profile Dropdown Menu */}
               <Menu as="div" className="relative flex-shrink-0">
-                <Menu.Button className="relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
+                <Menu.Button className="relative flex rounded-full bg-white text-sm ring-2 ring-white font-montserrat ring-opacity-20 focus:outline-none focus:ring-opacity-100">
                   <span className="sr-only">Open user menu</span>
                   <span className="relative inline-block">
                     <img
@@ -63,7 +63,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
                             href={item.href}
                             className={classNames(
                               active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
+                              'block px-4 py-2 text-sm font-montserrat text-gray-700'
                             )}
                           >
                             {item.name}
@@ -76,7 +76,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
               </Menu>
 
               {/* Mobile Menu Toggle */}
-              <Popover.Button className="relative inline-flex items-center justify-center rounded-md bg-transparent p-2 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+              <Popover.Button className="relative inline-flex items-center justify-center rounded-md bg-transparent p-2 text-indigo-200 hover:bg-white font-montserrat hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                 <span className="sr-only">Open main menu</span>
                 {open ? (
                   <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
@@ -120,7 +120,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
                           <img className="h-8 w-auto" src={Logo} alt="Your Company" />
                         </div>
                         <div className="-mr-2">
-                          <Popover.Button className="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                          <Popover.Button className="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none font-montserrat focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                             <span className="sr-only">Close menu</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </Popover.Button>
@@ -128,7 +128,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
                       </div>
                       <a
                         href="#"
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
+                        className="block rounded-md px-3 py-2 text-base font-medium font-montserrat text-gray-900 hover:bg-gray-100 hover:text-gray-800"
                       >
                         TRAVELOTL
                       </a>
@@ -150,7 +150,7 @@ export default function ItinerariesPopOver({ user, userNavigation, classNames })
                           <a
                             key={item.name}
                             href={item.href}
-                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
+                            className="block rounded-md px-3 py-2 text-base font-medium font-montserrat text-gray-900 hover:bg-gray-100 hover:text-gray-800"
                           >
                             {item.name}
                           </a>
