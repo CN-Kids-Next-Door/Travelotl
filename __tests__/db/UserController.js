@@ -25,9 +25,11 @@ async function registerUserController(req, res) {
 
 async function loginUserController (req, res) {
 
-  const { email, password } = req.body.userInfo;
+  console.log('req looks like this: ', req.body);
+  const { email, password } = req.body;
 
   try {
+    console.log('im in the try block')
 
     const query = `
       SELECT roles, password, email, username 
@@ -36,6 +38,8 @@ async function loginUserController (req, res) {
     `
 
     const result = await db.query(query, [email]);
+
+    console.log('result: ', result)
 
     if (result.rows.length > 0) {
       const userPw = result.rows[0].password;

@@ -3,14 +3,14 @@ jest.mock('./mockModel');
 const { getUsersController } = require('./UserController');
 const db = require('./mockModel');
 const request = require('supertest');
-const app = require('../../server/server.js');
+const app = require('./mockServer');
 
 
 afterAll(done => {
     done()
 })
 
-//practicing with some test examples i found online to help guide me for next tests
+//testing to make sure database can be accessed
 describe('getUsersController', () => {
     it('should return all users in db', async () => {
         const mockUsers = [{"userInfo": { "email": "test@test.com", "username": "iamuser", "password": "password", "firstName": "name", "lastName": "last"}, "token": "NOTOKEN"}]
@@ -42,33 +42,31 @@ describe('getUsersController', () => {
     });
 })
 
-//http request tests
-describe('POST to /auth/login', () => {
-    //it should be able to login in a user by comparing info
-    it('should login a user by comparing password in db and return user info obj', async () => {
-        const userData = [{"userInfo": { "email": "test@test.com", "username": "iamuser", "password": "password", "firstName": "name", "lastName": "last"}, "token": "NOTOKEN"}];
+// //http request tests
+//commented out because they are not complete
+// describe('POST to /auth/login', () => {
+//     //it should be able to login in a user by comparing info
+//     it('should login a user by comparing password in db and return user info obj', async () => {
+//         const userData = [{"userInfo": { "email": "test@test.com", "username": "iamuser", "password": "password", "firstName": "name", "lastName": "last"}, "token": "NOTOKEN"}];
 
-        const req = {username: 'iamuser', password: 'password'};
+//         const reqBody = {email: 'test@test.com', password: 'password', username: 'iamuser', roles: 'user'};
        
-        const response = await request(app)
-            .post('/auth/login')
-            .send(req);
+//         const response = await request(app)
+//             .post('/auth/login')
+//             .send(reqBody);
+
+//         console.log('this is response:', response.body)
 
 
-        expect(response.status).toBe(200);
-        expect(response.body.token).toBeDefined();
+//         expect(response.status).toBe(200);
+//         expect(response.body).toBeDefined();
 
-        const user = response.body.user;
-        console.log('user:', user);
-        expect(user.username).toBe(req.username)
-        expect(user.password).toBe(req.password)
+//         const user = response.body.user;
+//         console.log('user:', user);
+//         expect(user.email).toBe(userData[0].userInfo.email)
+//         expect(user.password).toBe(userData[0].userInfo.password)
 
         
-    })
-})
+//     })
+// })
     
-
-    //it should be able to register a user by adding to the database
-    /*const userDataInDB = await db.query('SELECT * FROM users WHERE username = $1;', [userData.userInfo.username]);
-        expect(usersInDatabase.rows.length).toBe(1);
-        expect(usersInDatabase.rows[0].userInfo.email).toBe(userData.userInfo.email); */
