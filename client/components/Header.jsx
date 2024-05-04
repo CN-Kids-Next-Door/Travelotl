@@ -21,27 +21,27 @@ function Header() {
               Travel Form
             </NavLink>
           </li>
-          <li className="mr-6">
+          {/* <li className="mr-6">
             <NavLink to="/itinerary" className={({ isActive }) => isActive ? "text-blue-300 font-montserrat hover:text-blue-200" : "hover:text-blue-200"}>
               View Small Itineraries
             </NavLink>
-          </li>
+          </li> */}
           <li className="mr-6">
             <NavLink to="/itinerary1" className={({ isActive }) => isActive ? "text-blue-300 font-montserrat hover:text-blue-200" : "hover:text-blue-200"}>
               View Large Itineraries
             </NavLink>
           </li>
 
-          <li className="mr-6">
+          {/* <li className="mr-6">
             <NavLink to="/itinerarieswelcome" className={({ isActive }) => isActive ? "text-blue-300 font-montserrat hover:text-blue-200" : "hover:text-blue-200"}>
               Profile
             </NavLink>
-          </li>
-          <li className="mr-6">
+          </li> */}
+          {/* <li className="mr-6">
             <NavLink to="/success" className={({ isActive }) => isActive ? "text-blue-300 font-montserrat hover:text-blue-200" : "hover:text-blue-200"}>
               OAuth
-            </NavLink>
-          </li>
+            </NavLink> */}
+          {/* </li> */}
           {/* <li className="mr-6">
             <NavLink to="/login" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
               Login
