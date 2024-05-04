@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Logo from './../../assets/Travelotl_Logo_white.png';
 import { useLoginMutation, useOauthMutation } from './../../features/authSlice.js';
 
+const CLIENT_ID = "fb26bcfe259d6f2f503c"
+
 const Login = ({ toggle }) => {
     // Initialize empty state
     const [email, setEmail] = useState('');
@@ -35,7 +37,7 @@ const Login = ({ toggle }) => {
       
       console.log('Login successful', payload );
       // Check for ok response and redirect back to main
-      navigate('/form');
+      navigate('/itinerarieswelcome');
 
       } catch ( err ) {
         console.error('Login failed:', err);
@@ -53,31 +55,33 @@ const Login = ({ toggle }) => {
 
   };
 
-   const CLIENT_ID = "fb26bcfe259d6f2f503c"
+  useEffect(() => {
+    // Check if the URL contains an authorization code
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
 
-   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString)
-    const codeParams = urlParams.get("code")
-    console.log(codeParams)
+    if (code) {
+        // Call your backend to exchange the code for an access token
+      fetch(`http://localhost:3000/oauth/github/callback`, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+      body: JSON.stringify({ code })
+})
+.then(response => response.json())
+.then(data => {
+    const accessToken = data.access_token;
+    localStorage.setItem('accessToken', accessToken);
+    navigate('/');
+})
+.catch(error => {
+    console.error('Error exchanging code for access token:', error);
+    // Handle error, maybe show a message to the user
+});
 
-    if(codeParams && localStorage.getItem("accessToken") === null){
-      async function getAccessToken () {
-        await fetch("http://localhost:8080/successlogin?code="+ codeParams, {
-          method: "GET"
-        }).then((response) => {
-          return response.json();
-        }).then((data) => {
-          console.log(data)
-          if(data.access_token){
-            localStorage.setItem("accessToken", data.access_token)
-          }
-        })
-
-      }
-      getAccessToken()
     }
-   }, []) 
+}, [navigate]);
    
   function logIn () {
       window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
