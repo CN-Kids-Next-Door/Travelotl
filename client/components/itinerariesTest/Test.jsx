@@ -2,7 +2,7 @@ import { CodeBracketIcon, EllipsisVerticalIcon, FlagIcon, StarIcon } from '@hero
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import ItinerariesPopOver from './itinPopOver.jsx';
-import PlaneVideo from './../../assets/flying.mp4';
+import PlaneVideo from './../../assets/flying2.mp4';
 import TravelotlProfile from './TravelotlProfile.jsx';
 // import { Menu, Transition } from '@headlessui/react';
 

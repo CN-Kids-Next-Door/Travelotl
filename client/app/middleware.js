@@ -10,7 +10,7 @@ const injectUserIdMiddleware = (api) => (next) => (action) => {
       const state = api.getState();
 
       // RETRIEVE user_id FROM STATE
-      const userId = 26; //state.authState.userInfo ? state.authState.userInfo.user_id : null;
+      const userId = state.authState.userInfo ? state.authState.userInfo.user_id : null;
 
       if (!userId) {
         console.log(`❌ ::Failed:: Injection of User ID ${userId} into action for endpoint ${endpointName} (if not logged in, ignore)`);

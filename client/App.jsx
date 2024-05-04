@@ -18,7 +18,7 @@ import SuccessGit from './components/success.jsx';
 
 import ItinerariesWelcome from './components/ItinerariesWelcome/ItinerariesWelcome.jsx';
 
-import NewItineraryForm from './components/formPages/NewItineraryForm.jsx';
+import NewItineraryForm from './components/ItinerariesWelcome/formPages/NewItineraryForm.jsx';
 import Test from './components/itinerariesTest/Test.jsx';
 
 const App = () => {
@@ -36,7 +36,6 @@ const App = () => {
             <Route path='/newitineraryform' element={<NewItineraryForm />}/>
 
             <Route path='/itinerarieswelcome' element={<ItinerariesWelcome />}/>
-            <Route path='/test' element={<Test />}/>
           </Routes>
         </BrowserRouter>
     );
