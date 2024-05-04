@@ -21,8 +21,7 @@ const Login = ({ toggle }) => {
             navigate('/newitineraryform');
         } catch (err) {
             console.error('Login failed:', err);
-        }
-    };
+        };
 
     try{
       // Make fetch request with submitted data
