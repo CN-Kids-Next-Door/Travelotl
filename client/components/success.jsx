@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { useOauthMutation } from './../features/authSlice.js';
 import Header from './Header.jsx';
 
 const SuccessGit = () => {
     const [code, setCode] = useState('');
     const [oauthLogin, { isLoading: oauthLoading, error: oauthError }] = useOauthMutation();
-    const success = useSelector(state => state.success);
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     // Function to handle sending the code to the server
     const sendCodeToServer = async () => {
@@ -14,8 +14,10 @@ const SuccessGit = () => {
             // Call the mutation function to send the code to the server
             console.log(`Code: 2 ${code}`)
             await oauthLogin({ code: code });
+            navigate('/newitineraryform'); 
         } catch (error) {
             console.error('Error sending code to server:', error.message);
+            // Handle error if necessary
         }
     };
 
@@ -30,18 +32,16 @@ const SuccessGit = () => {
         // Set the code state if it exists
         if (urlCode) {
             setCode(urlCode);
+            // Call the function to send code to server
+            sendCodeToServer();
         }
-
-        // Call the function to send code to server
-        sendCodeToServer();
-    }, []);
+    }, [navigate]); // Add navigate to dependency array
 
     return(
         <div>
             <Header/>
             <h2>Success</h2>
             You are being redirected
-            <button>Click here to redirect back to the homepage</button>
         </div>
     );
 };
