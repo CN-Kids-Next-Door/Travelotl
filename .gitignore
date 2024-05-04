@@ -1,6 +1,30 @@
-node_modules
-.DS_Store
+# DEV - Folders
+node_modules/
+dist/
+
+# DEV MISC - specific files
+.env
 .vscode
+package-lock.json
 gitpush.zsh
-dist
-config.env
+
+# MAC - General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# MAC - Hidden Files Sstarting with Underscore
+._*
+
+#1PASSWORD
+.op/
+*.json
+
+# MISC - All
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent

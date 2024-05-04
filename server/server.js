@@ -1,40 +1,66 @@
+// IMPORTS
 const express = require ('express');
 const path = require ('path');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv')
 
-//use environmental variables
-dotenv.config({ path: './config.env' });
+// .ENV FILE USAGE
+require('dotenv').config();
 
-// connect to MongoDB cluster
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(`${process.env.MONGO_URI}`);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-}
+//Stuff I just added today 4/27
+const client_id = "9d73905a903015abf5f249a7e899a4ddb725f15d"
 
-connectDB();
+// DEFAULT IMPORTS OF ROUTERS
+const authRouter = require('./routers/authRouter.js');    // LOGIN, REGISTER, LOGOUT, ETC
+const apiRouter = require('./routers/apiRouter.js');      // ITINERY, ETC
+const rootRouter = require('./routers/rootRouter.js');    // SERVES FILES
 
-// TEST CODE - CAN DELETE WHEN FINISHED
-// const tripController = require('./controllers/itinerary_controller');
+// NAMED IMPORTS OF ERROR HANDLERS (Global and Default (e.g, 404) )
+const { 
+  globalErrorHandler, 
+  defaultErrorHandler 
+} = require('./serverConfigs/globalErrorHandler.js');
 
+// NAMED IMPORTS OF MIDDLEWARE / SERVER CONFIGS
+const { 
+  setupMiddlewares, 
+  startServer 
+} = require('./serverConfigs/serverConfigs.js');
+
+// SERVER DECLARATIONS
 const app = express();
-const port = 3000;
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client')));
-app.use(express.urlencoded({ extended: true })); //parse urlencoded bodies
+setupMiddlewares( app );
 
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/trip', require('./routes/itineraryRoutes'));
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname,'../index.html'))
-})
+app
+// ROOT ROUTE FOR FILE SERVING (NON-WEBPACK)
+   .get('/', rootRouter )
+      /**
+       *  ['/']          (FOR ROUTER see "./rootRouter.js")
+       */
+// ROUTERS FOR ROUTING
+   .use('/auth', authRouter )
+      /**
+       *  ['/auth']      (FOR ROUTER see "./routers/authRouter.js")
+       */
+   .use('/api', apiRouter )
+      /**
+        * ['/api']       (FOR ROUTER see "./routers/apiRouter.js")
+        * ['/api/itnry'] (FOR ROUTER see "./routers/apiRouters/itnryRouter.js")
+        */
+   .get('/successlogin', // OAUTH
+      (req, res) => {
+        return res.redirect("/success");
+      }
+    )
+    // .post()
+    
+// 404 HANDLER
+   .use( defaultErrorHandler )
 
+// USE GLOBAL ERROR HANDLER
+   .use( globalErrorHandler );
 
-app.listen(port, () => console.log(`Server is running on ${port}`));
+//START SERVER COMMAND
+startServer( app, PORT, HOST );

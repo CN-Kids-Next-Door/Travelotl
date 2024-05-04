@@ -1,7 +1,11 @@
 # Travelotl
 
-## Frontend notes
+## Ideation Project
+- Developing a travel itinerary can be overwhelming, especially when travelling to a new place. Don't fret! With Travelotl, you can utilize the power of AI to generate a travel itinerary for you based on your trip details.
 
-### Ideas
-- Upon completion of destination input, display image of destination (skyline view?) as background of form
-- As each page of the form is completed, the perspective of the image shifts ever so slightly, and the components in front of the image slide to the left and the new ones come in from the right
+### Technology Stack
+- PostgreSQL
+- Express
+- React/ Redux
+- Node
+- Tailwind CSS
