@@ -2,28 +2,34 @@ import React, { useState } from 'react';
 import LoadingOverlay from './LoadingOverlay.js'; // Adjust the path according to your project structure
 
 const TripForm = ({ onSubmit, loading }) => {
-    const [fromLocation, setFromLocation] = useState('');
-    const [destination, setDestination] = useState('');
-    const [budget, setBudget] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [groupDescription, setGroupDescription] = useState('');
-    const [travelers, setTravelers] = useState('');
-    const [activities, setActivities] = useState([]);
-    const [newActivity, setNewActivity] = useState('');
+    const initialFormState = {
+        fromLocation: '',
+        destination: '',
+        budget: '',
+        startDate: '',
+        endDate: '',
+        groupDescription: '',
+        travelers: '',
+        itineraryName: '',
+        newActivity: '',
+        activities: [],
+    };
+
+    const [formState, setFormState] = useState(initialFormState);
     const [errors, setErrors] = useState({});
-    const [itineraryName, setItineraryName] = useState('');
 
     const groupOptions = ['Solo', 'Family (Kids)', 'Family (All Ages)', 'Family (Adults)', 'Friends'];
 
     const handleAddActivity = () => {
+        const { newActivity, activities } = formState;
         if (newActivity.trim() && !activities.includes(newActivity)) {
-            setActivities([...activities, newActivity.trim()]);
+            setFormState({ ...formState, activities: [...activities, newActivity.trim()], newActivity: '' });
         }
-        setNewActivity('');
     };
 
-    const handleRemoveActivity = (activity) => setActivities(activities.filter(a => a !== activity));
+    const handleRemoveActivity = (activity) => {
+        setFormState({ ...formState, activities: formState.activities.filter(a => a !== activity) });
+    };
 
     const dismissError = (field) => {
         setErrors((prevErrors) => {
@@ -35,6 +41,8 @@ const TripForm = ({ onSubmit, loading }) => {
 
     const validateFields = () => {
         const newErrors = {};
+        const { itineraryName, fromLocation, destination, budget, startDate, endDate, travelers } = formState;
+
         if (!itineraryName.trim()) newErrors.itineraryName = "Itinerary name is required.";
         if (!fromLocation.trim()) newErrors.fromLocation = "From location is required.";
         if (!destination.trim()) newErrors.destination = "Destination is required.";
@@ -50,34 +58,30 @@ const TripForm = ({ onSubmit, loading }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFields()) {
-            const formData = {
-                itineraryName,
-                fromLocation,
-                destination,
-                budget,
-                startDate,
-                endDate,
-                groupDescription,
-                travelers,
-                activities
-            };
-            onSubmit(formData);
+            const { itineraryName, fromLocation, destination, budget, startDate, endDate, groupDescription, travelers, activities } = formState;
+            onSubmit({ itineraryName, fromLocation, destination, budget, startDate, endDate, groupDescription, travelers, activities });
         }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormState({ ...formState, [name]: value });
     };
 
     const handleTravelersChange = (e) => {
         const value = parseInt(e.target.value, 10);
-        setTravelers(value > 0 ? value : '');
+        setFormState({ ...formState, travelers: value > 0 ? value : '' });
     };
 
     const handleBudgetChange = (e) => {
         const value = parseInt(e.target.value, 10);
-        setBudget(value > 0 ? value : '');
+        setFormState({ ...formState, budget: value > 0 ? value : '' });
     };
 
-    const handleStartDateChange = (e) => setStartDate(e.target.value);
-    const handleEndDateChange = (e) => setEndDate(e.target.value);
-    const handleActivityInputChange = (e) => setNewActivity(e.target.value);
+    const handleReset = () => {
+        setFormState(initialFormState);
+        setErrors({});
+    };
 
     return (
         <>
@@ -88,24 +92,26 @@ const TripForm = ({ onSubmit, loading }) => {
                     <label htmlFor="itineraryName" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Itinerary Name:</label>
                     <input
                         id="itineraryName"
+                        name="itineraryName"
                         type="text"
-                        value={itineraryName}
-                        onChange={(e) => setItineraryName(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                        value={formState.itineraryName}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
                         disabled={loading}
                     />
                 </div>
 
                 {/* From and To */}
-                <div className="mb-6 grid grid-cols-2 gap-4">
+                <div className="mb-6 grid font-montserrat grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="fromLocation" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">From:</label>
                         <input
                             id="fromLocation"
+                            name="fromLocation"
                             type="text"
-                            value={fromLocation}
-                            onChange={(e) => setFromLocation(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            value={formState.fromLocation}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
@@ -113,25 +119,27 @@ const TripForm = ({ onSubmit, loading }) => {
                         <label htmlFor="destination" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">To:</label>
                         <input
                             id="destination"
+                            name="destination"
                             type="text"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            value={formState.destination}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full border border-gray-300 font-montserrat rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
                 </div>
 
                 {/* Start/End Dates */}
-                <div className="mb-6 grid grid-cols-2 gap-4">
+                <div className="mb-6 grid font-montserrat grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="startDate" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Start Date:</label>
                         <input
                             id="startDate"
+                            name="startDate"
                             type="date"
-                            value={startDate}
-                            onChange={handleStartDateChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            value={formState.startDate}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
@@ -139,61 +147,69 @@ const TripForm = ({ onSubmit, loading }) => {
                         <label htmlFor="endDate" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">End Date:</label>
                         <input
                             id="endDate"
+                            name="endDate"
                             type="date"
-                            value={endDate}
-                            onChange={handleEndDateChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            value={formState.endDate}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 font-montserrat focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
                 </div>
 
                 {/* Travelers, Budget, and Group */}
-                <div className="mb-6 grid grid-cols-2 gap-4">
-                    {/* Travelers and Budget */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Travelers:</label>
-                            <div className="flex mt-1">
-                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 rounded-l-md">#</span>
-                                <input
-                                    type="number"
-                                    value={travelers}
-                                    onChange={handleTravelersChange}
-                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
-                                    disabled={loading}
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Budget:</label>
-                            <div class="flex mt-1">
-                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 rounded-l-md">$</span>
-                                <input
-                                    type="number"
-                                    value={budget}
-                                    onChange={handleBudgetChange}
-                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
-                                    disabled={loading}
-                                />
-                            </div>
+                <div className="mb-6 grid font-montserrat grid-cols-4 gap-4">
+                    {/* Travelers - Takes up A (1 out of 4 columns) */}
+                    <div>
+                        <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Travelers:</label>
+                        <div className="flex mt-1">
+                            <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 font-montserrat rounded-l-md">#</span>
+                            <input
+                                name="travelers"
+                                type="number"
+                                value={formState.travelers}
+                                onChange={handleTravelersChange}
+                                className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
+                                disabled={loading}
+                            />
                         </div>
                     </div>
-                    {/* Group */}
-                    <div>
-                        <label htmlFor="groupDescription" className="block text-sm font-medium font-montserrat text-gray-800 mb-2">Group:</label>
-                        <select
-                            id="groupDescription"
-                            value={groupDescription}
-                            onChange={(e) => setGroupDescription(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
-                            disabled={loading}
-                        >
-                            <option value="" disabled>Select a group...</option>
-                            {groupOptions.map((group, index) => (
-                                <option key={index} value={group}>{group}</option>
-                            ))}
-                        </select>
+
+                    {/* Budget and Group - Takes up 3A (3 out of 4 columns) */}
+                    <div className="grid grid-cols-5 font-montserrat gap-4 col-span-3">
+                        {/* Budget - 2/5 of 3A */}
+                        <div className="col-span-2">
+                            <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Budget:</label>
+                            <div className="flex mt-1">
+                                <span className="inline-flex items-center px-3 font-montserrat text-gray-500 bg-gray-200 border border-gray-300 rounded-l-md">$</span>
+                                <input
+                                    name="budget"
+                                    type="number"
+                                    value={formState.budget}
+                                    onChange={handleBudgetChange}
+                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm font-montserrat focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                                    disabled={loading}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Group - 3/5 of 3A */}
+                        <div className="col-span-3">
+                            <label htmlFor="groupDescription" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Group:</label>
+                            <select
+                                id="groupDescription"
+                                name="groupDescription"
+                                value={formState.groupDescription}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 font-montserrat focus:border-blue-500 sm:text-sm p-3"
+                                disabled={loading}
+                            >
+                                <option value="" disabled>Select a group...</option>
+                                {groupOptions.map((group, index) => (
+                                    <option key={index} value={group}>{group}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -202,30 +218,31 @@ const TripForm = ({ onSubmit, loading }) => {
                     <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Activities:</label>
                     <div className="flex mb-2">
                         <input
+                            name="newActivity"
                             type="text"
                             placeholder="Add activity..."
-                            value={newActivity}
-                            onChange={handleActivityInputChange}
-                            className="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            value={formState.newActivity}
+                            onChange={handleInputChange}
+                            className="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
                             disabled={loading}
                         />
                         <button
                             type="button"
                             onClick={handleAddActivity}
-                            className={`ml-2 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            className={`ml-2 inline-flex justify-center w-32 py-3 px-5 border border-transparent shadow-sm text-sm font-medium font-montserrat rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                             disabled={loading}
                         >
                             Add
                         </button>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {activities.map((activity, index) => (
+                        {formState.activities.map((activity, index) => (
                             <div key={index} className="flex items-center bg-gray-100 border border-gray-300 rounded-md px-3 py-1 shadow-sm">
-                                <span className="text-sm font-medium text-gray-700">{activity}</span>
+                                <span className="text-sm font-medium font-montserrat text-gray-700">{activity}</span>
                                 <button
                                     type="button"
                                     onClick={() => handleRemoveActivity(activity)}
-                                    className={`ml-2 text-red-600 hover:text-red-800 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                                    className={`ml-2 text-red-600 font-montserrat hover:text-red-800 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                                     disabled={loading}
                                 >
                                     X
@@ -235,14 +252,21 @@ const TripForm = ({ onSubmit, loading }) => {
                     </div>
                 </div>
 
-                {/* Submit Button */}
-                <div className="mt-6">
+                {/* Submit and Reset Buttons */}
+                <div className="mt-6 flex gap-4">
                     <button
                         type="submit"
-                        className={`inline-flex justify-center py-3 px-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                        className={`inline-flex justify-center w-32 py-3 px-5 border border-transparent shadow-sm text-sm font-medium font-montserrat rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={loading}
                     >
                         {loading ? "Submitting..." : "Submit"}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        className="inline-flex justify-center w-32 py-3 px-5 border border-transparent shadow-sm text-sm font-medium rounded-md font-montserrat text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                        Reset
                     </button>
                 </div>
 
@@ -254,7 +278,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             <button
                                 type="button"
                                 onClick={() => dismissError(field)}
-                                className="ml-2 text-red-600 hover:text-red-800"
+                                className="ml-2 text-red-600 font-montserrat hover:text-red-800"
                             >
                                 X
                             </button>

@@ -37,7 +37,7 @@ const Login = ({ toggle }) => {
       
       console.log('Login successful', payload );
       // Check for ok response and redirect back to main
-      navigate('/itinerarieswelcome');
+      navigate('/newitineraryform');
 
       } catch ( err ) {
         console.error('Login failed:', err);
