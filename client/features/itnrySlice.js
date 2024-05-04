@@ -57,7 +57,7 @@ export const itnryApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, { itnryId }) => [{ type: 'Itnry', id: itnryId }],
     }),
 
-
+//when handle submit, go to state, useselectpr, get userid, put in and put form data as data, view inside network tab and make sure formatted on the backend
     addItinerary: builder.mutation({
       query: ({ userId, data }) => ({
         url: `/${URL_APIBASE}/${userId}/${URL_API}`,
