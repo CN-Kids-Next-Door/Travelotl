@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import ItinerariesPopOver from './itinPopOver.jsx';
 import PlaneVideo from './../../assets/flying.mp4';
+import TravelotlProfile from './TravelotlProfile.jsx';
 // import { Menu, Transition } from '@headlessui/react';
 
 // function classNames(...classes) {
@@ -36,7 +37,7 @@ import {
 import ICardFront from './cards/iCardFrontPage.jsx'
 import ICardBack from './cards/iCardBackPage.jsx'
 import ICardHorizontal from './cards/iCardHorizontalPage.jsx'
-
+import UniformProfile from './trashcan/UniformProfile.jsx';
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   // { name: 'Settings', href: '#' },
@@ -69,78 +70,49 @@ const {
 
 
   return (
-    <>
-      {/*
-        This example requires updating your template:
+<>
 
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+  <UniformProfile open={open} user={user} userNavigation={userNavigation} classNames={classNames} />
+  <div className="min-h-full">
+    <video autoPlay muted loop className="fixed top-0 left-0 w-full h-[calc(100vh)] object-cover z-0">
+      <source src={PlaneVideo} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
 
-      <div className="min-h-full">
-      <video autoPlay muted loop className="fixed top-[0rem] left-0 w-full h-[calc(100vh-0rem)] object-cover z-0">
-        <source src={PlaneVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      
-      <ItinerariesPopOver user={user} userNavigation={userNavigation} navigation={navigation} classNames ={classNames} />
+    <ItinerariesPopOver user={user} userNavigation={userNavigation} navigation={navigation} classNames={classNames} />
 
-<main className="-mt-24 pb-8">
-  <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-    <h1 className="sr-only">Travelotl: Plan the trip of your dreams...</h1>
+    <main className="-mt-24 pb-8">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h1>Travelotl: Plan the trip of your dreams...</h1>
 
-    {/* Main 3 column grid */}
-    <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+          {/* Left Column */}
+          <div className="grid grid-cols-1 gap-4 lg:col-span-1">
+            <section>
+              <div className="overflow-hidden rounded-lg bg-white shadow">
+                <div className="p-6"></div>
+                <ICardHorizontal />
+              </div>
+            </section>
+          </div>
 
-
-        {/* Left column */}
-        <div className="grid grid-cols-1 gap-4 lg:col-span-1">
-          <section aria-labelledby="section-1-title">
-            <h2 className="sr-only" id="section-1-title">
-              Filter
-            </h2>
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-
-              <div className="p-6">{/* Your content */}</div>
-
-              {/* <ICardFront/> */}
-
-              <ICardHorizontal/>
-
-              {/* <div className="itinerary-page">
-                <ItinerariesList itineraries={itineraries} />
-              </div> */}
-
-            </div>
-          </section>
+          {/* Right Column */}
+          <div className="grid grid-cols-1 gap-4 lg:col-start-2">
+            <section>
+              <div className="overflow-hidden rounded-lg bg-white shadow">
+                <div className="p-6"></div>
+                <ICardBack />
+                <p>COLUMN 2</p>
+              </div>
+            </section>
+          </div>
         </div>
-
-        {/* Right column */}
-        <div className="grid grid-cols-1 gap-4 lg:col-start-2">
-          <section aria-labelledby="section-2-title">
-            
-            <h2 className="sr-only" id="section-2-title">
-              Section title
-            </h2>
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="p-6">{/* Your content */}</div>
-              <ICardBack/>
-              <p>COLUMN 2</p>
-            </div>
-
-          </section>
-        </div>
-
       </div>
-    </div>
-  </main>
+    </main>
 
-<footer>
-</footer>
-
-</div>
+    <footer></footer>
+  </div>
 </>
+
 )
 }
