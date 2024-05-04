@@ -15,6 +15,8 @@ import DesktopBadge from './Badge/DesktopBadge.jsx';
 import UniformBadge from './Badge/UniformBadge.jsx';
 // import NewItineraryForm from './NewItineraryForm.jsx';
 import { useGetItinerariesQuery, useAddItineraryMutation } from '../../features/itnrySlice.js';
+import Header from './../Header.jsx';
+
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -26,7 +28,7 @@ function classNames(...classes) {
 }
 
 export default function ItinerariesWelcome() {
-  const { firstname: firstName, lastname: lastName, email: userEmail, profile_image } = useSelector((state) => state.authState.userInfo);
+  const { firstname: firstName , lastname: lastName, email: userEmail, profile_image } = useSelector((state) => state.authState.userInfo);
 
   const user = {
     name: `${firstName} ${lastName}`,
@@ -35,15 +37,15 @@ export default function ItinerariesWelcome() {
   };
 
   const userId = useSelector((state) => state.authState.userInfo.user_id);
-  
-  const { data: itineraries, isLoading, isError, error } = useGetItinerariesQuery({ userId }, { skip: !userId });
+  console.log('user id in ityn welcome:', userId);
+  // const { data: itineraries, isLoading, isError, error } = useGetItinerariesQuery({ userId }, { skip: !userId });
 
   // useAddItineraryMutation({ userId, data }, { skip: !userId });
 
   return (
     <>
       {/* <ProfileBadge open={open} user={user} userNavigation={userNavigation} classNames={classNames} /> */}
-
+      <Header />
       <DesktopBadge open={open} user={user} userNavigation={userNavigation} classNames={classNames} />
 
       {/* <UniformBadge open={open} user={user} userNavigation={userNavigation} classNames={classNames} /> */}

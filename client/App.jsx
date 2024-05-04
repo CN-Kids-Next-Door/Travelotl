@@ -36,7 +36,6 @@ const App = () => {
             <Route path='/newitineraryform' element={<NewItineraryForm />}/>
 
             <Route path='/itinerarieswelcome' element={<ItinerariesWelcome />}/>
-            <Route path='/test' element={<Test />}/>
           </Routes>
         </BrowserRouter>
     );

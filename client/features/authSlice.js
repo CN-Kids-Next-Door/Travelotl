@@ -16,10 +16,10 @@ const mutationOptions = (endpointPath, method = 'POST') => ({
   },
   onQueryStarted: async (arg, { queryFulfilled, dispatch }) => {
     try {
-      const { data } = await queryFulfilled;
-      console.log("Transformed Data:", data); // Log the transformed data
-      dispatch(setAuthInfo({ userInfo: data.userInfo, token: data.token }));       
-      localStorage.setItem('token', data.token); 
+      const response = await queryFulfilled;
+      console.log("API Response:", response); // Log the entire response object
+      dispatch(setAuthInfo({ userInfo: response.data.userInfo, token: response.data.token }));       
+      localStorage.setItem('token', response.data.token); 
     } catch (error) {
       console.error('Error during login:', error);
     }
