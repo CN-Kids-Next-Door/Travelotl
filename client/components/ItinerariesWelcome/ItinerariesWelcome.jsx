@@ -35,10 +35,10 @@ export default function ItinerariesWelcome() {
   };
 
   const userId = useSelector((state) => state.authState.userInfo.user_id);
-  console.log(userId);
+  console.log('user id in ityn welcome:', userId);
   const { data: itineraries, isLoading, isError, error } = useGetItinerariesQuery({ userId }, { skip: !userId });
 
-  // useAddItinerariesQuery({ userId, data }, { skip: !userId });
+  useAddItineraryMutation({ userId, data }, { skip: !userId });
 
   return (
     <>

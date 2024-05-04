@@ -33,7 +33,7 @@ const SinglePageForm = () => {
           </button>
 
           <Modal isOpen={modalOpen} toggleModal={handleToggleModal}>
-            <h2 className="text-xl font-semibold mb-4 text-center">Travelotyl</h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">Travelotl</h2>
             <TripForm onSubmit={handleFormSubmit} loading={loading} />
           </Modal>
 

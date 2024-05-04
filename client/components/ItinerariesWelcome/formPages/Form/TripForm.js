@@ -1,4 +1,3 @@
-// TripForm.jsx
 import React, { useState } from 'react';
 import LoadingOverlay from './LoadingOverlay.js'; // Adjust the path according to your project structure
 
@@ -36,6 +35,7 @@ const TripForm = ({ onSubmit, loading }) => {
 
     const validateFields = () => {
         const newErrors = {};
+        if (!itineraryName.trim()) newErrors.itineraryName = "Itinerary name is required.";
         if (!fromLocation.trim()) newErrors.fromLocation = "From location is required.";
         if (!destination.trim()) newErrors.destination = "Destination is required.";
         if (budget <= 0 || isNaN(budget)) newErrors.budget = "Budget should be a positive, non-zero number.";
@@ -51,6 +51,7 @@ const TripForm = ({ onSubmit, loading }) => {
         e.preventDefault();
         if (validateFields()) {
             const formData = {
+                itineraryName,
                 fromLocation,
                 destination,
                 budget,
@@ -82,23 +83,21 @@ const TripForm = ({ onSubmit, loading }) => {
         <>
             <LoadingOverlay isVisible={loading} />
             <form onSubmit={handleSubmit}>
-                <div className="mb-6 grid grid-cols-2 gap-4">
+                {/* Itinerary Name */}
+                <div className="mb-6">
+                    <label htmlFor="itineraryName" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Itinerary Name:</label>
+                    <input
+                        id="itineraryName"
+                        type="text"
+                        value={itineraryName}
+                        onChange={(e) => setItineraryName(e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                        disabled={loading}
+                    />
+                </div>
 
-
+                {/* From and To */}
                 <div className="mb-6 grid grid-cols-2 gap-4">
-    <div className="col-span-2">
-        <label htmlFor="itineraryName" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Itinerary Name:</label>
-        <input
-            id="itineraryName"
-            type="text"
-            value={itineraryName}
-            onChange={(e) => setItineraryName(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
-            disabled={loading}
-        />
-    </div>
-</div>
-                    {/* From and To */}
                     <div>
                         <label htmlFor="fromLocation" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">From:</label>
                         <input
@@ -106,7 +105,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             type="text"
                             value={fromLocation}
                             onChange={(e) => setFromLocation(e.target.value)}
-                            className="mt-1 block  font-montserrat w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
@@ -117,7 +116,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             type="text"
                             value={destination}
                             onChange={(e) => setDestination(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
@@ -132,7 +131,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             type="date"
                             value={startDate}
                             onChange={handleStartDateChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 font-montserrat focus:border-blue-500 sm:text-sm p-3"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
@@ -143,38 +142,38 @@ const TripForm = ({ onSubmit, loading }) => {
                             type="date"
                             value={endDate}
                             onChange={handleEndDateChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 font-montserrat focus:border-blue-500 sm:text-sm p-3"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                     </div>
                 </div>
 
                 {/* Travelers, Budget, and Group */}
-                <div className="mb-6 grid font-montserrat grid-cols-2 gap-4">
+                <div className="mb-6 grid grid-cols-2 gap-4">
                     {/* Travelers and Budget */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Travelers:</label>
                             <div className="flex mt-1">
-                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border font-montserrat border-gray-300 rounded-l-md">#</span>
+                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 rounded-l-md">#</span>
                                 <input
                                     type="number"
                                     value={travelers}
                                     onChange={handleTravelersChange}
-                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm font-montserrat focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                                     disabled={loading}
                                 />
                             </div>
                         </div>
                         <div>
                             <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Budget:</label>
-                            <div className="flex mt-1">
-                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 font-montserrat rounded-l-md">$</span>
+                            <div class="flex mt-1">
+                                <span className="inline-flex items-center px-3 text-gray-500 bg-gray-200 border border-gray-300 rounded-l-md">$</span>
                                 <input
                                     type="number"
                                     value={budget}
                                     onChange={handleBudgetChange}
-                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-montserrat sm:text-sm p-3"
+                                    className="block w-full border border-gray-300 rounded-r-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                                     disabled={loading}
                                 />
                             </div>
@@ -187,7 +186,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             id="groupDescription"
                             value={groupDescription}
                             onChange={(e) => setGroupDescription(e.target.value)}
-                            className="mt-1 block w-full font-montserrat border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         >
                             <option value="" disabled>Select a group...</option>
@@ -199,34 +198,34 @@ const TripForm = ({ onSubmit, loading }) => {
                 </div>
 
                 {/* Activities */}
-                <div className="mb-6 font-montserrat">
+                <div className="mb-6">
                     <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Activities:</label>
-                    <div className="flex font-montserrat mb-2">
+                    <div className="flex mb-2">
                         <input
                             type="text"
                             placeholder="Add activity..."
                             value={newActivity}
                             onChange={handleActivityInputChange}
-                            className="block w-full border font-montserrat border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
+                            className="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-3"
                             disabled={loading}
                         />
                         <button
                             type="button"
                             onClick={handleAddActivity}
-                            className={`ml-2 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md font-montserrat hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            className={`ml-2 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                             disabled={loading}
                         >
                             Add
                         </button>
                     </div>
-                    <div className="flex font-montserrat flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {activities.map((activity, index) => (
-                            <div key={index} className="flex font-montserrat items-center bg-gray-100 border border-gray-300 rounded-md px-3 py-1 shadow-sm">
-                                <span className="text-sm font-medium font-montserrat text-gray-700">{activity}</span>
+                            <div key={index} className="flex items-center bg-gray-100 border border-gray-300 rounded-md px-3 py-1 shadow-sm">
+                                <span className="text-sm font-medium text-gray-700">{activity}</span>
                                 <button
                                     type="button"
                                     onClick={() => handleRemoveActivity(activity)}
-                                    className={`ml-2 text-red-600 font-montserrat hover:text-red-800 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                                    className={`ml-2 text-red-600 hover:text-red-800 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                                     disabled={loading}
                                 >
                                     X
@@ -237,10 +236,10 @@ const TripForm = ({ onSubmit, loading }) => {
                 </div>
 
                 {/* Submit Button */}
-                <div className="mt-6 font-montserrat">
+                <div className="mt-6">
                     <button
                         type="submit"
-                        className={`inline-flex justify-center py-3 px-5 border border-transparent shadow-sm font-montserrat text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                        className={`inline-flex justify-center py-3 px-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={loading}
                     >
                         {loading ? "Submitting..." : "Submit"}
@@ -250,12 +249,12 @@ const TripForm = ({ onSubmit, loading }) => {
                 {/* Errors List */}
                 <div className="mt-4">
                     {Object.entries(errors).map(([field, errorMsg], index) => (
-                        <div key={index} className="flex items-center bg-red-100 border border-red-400  font-montserrat text-red-700 rounded-md px-4 py-2 mb-2">
+                        <div key={index} className="flex items-center bg-red-100 border border-red-400 text-red-700 rounded-md px-4 py-2 mb-2">
                             <span className="flex-1">{errorMsg}</span>
                             <button
                                 type="button"
                                 onClick={() => dismissError(field)}
-                                className="ml-2 text-red-600 font-montserrat hover:text-red-800"
+                                className="ml-2 text-red-600 hover:text-red-800"
                             >
                                 X
                             </button>
