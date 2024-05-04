@@ -55,6 +55,7 @@ app
          if (!code) {
              return res.status(400).json({ error: 'Authorization code not provided' });
          }
+         //try and transfer information using oauth mutation in success
          try {
              // Exchange the authorization code for an access token
              const response = await fetch(`https://github.com/login/oauth/access_token`, {
