@@ -8,7 +8,9 @@ import Logo from './../../assets/Travelotl_Logo.png';
 
 export default function itinerariesPopOver ({ user, userNavigation, navigation, classNames }) {
   return (
-  <Popover as="header" className="bg-indigo-600 pb-24">
+  <Popover as="header" 
+  className="bg-indigo-600 pb-24"
+  >
   {({ open }) => (
     <>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">

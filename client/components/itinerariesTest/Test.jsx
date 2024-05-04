@@ -32,7 +32,9 @@ import {
   useGetItinerariesQuery,
   useAddItineraryMutation
 } from '../../features/itnrySlice.js';
-
+import iCardFront from './cards/iCardFrontPage.jsx'
+import iCardBack from './cards/iCardBackPage.jsx'
+import iCardHorizontal from './cards/iCardHorizontalPage.jsx'
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -76,6 +78,7 @@ const {
         ```
       */}
       <div className="min-h-full">
+
       <ItinerariesPopOver user={user} userNavigation={userNavigation} navigation={navigation} classNames ={classNames} />
 
         <main className="-mt-24 pb-8">
@@ -93,10 +96,17 @@ const {
                     Filter
                   </h2>
                   <div className="overflow-hidden rounded-lg bg-white shadow">
+
                     <div className="p-6">{/* Your content */}</div>
+
+                    {/* <iCardFront/> */}
+                    {/* <iCardBack/> */}
+                    {/* <iCardHorizontal/> */}
+
                     <div className="itinerary-page">
                       <ItinerariesList itineraries={itineraries} />
                     </div>
+
                   </div>
                 </section>
               </div>
