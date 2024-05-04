@@ -9,7 +9,7 @@ import {
   useGetItinerariesQuery,
   useAddItineraryMutation
 } from '../../features/itnrySlice.js';
-import ItinerariesList from './ItinerariesList.jsx';
+import ItinerariesList from '../itinerariesTest/cards/ItinerariesList.jsx';
 
 import Header from '../Header.jsx';
 import travelVideo from './../../assets/AdobeStock_118726863_travel_Preview.mp4'

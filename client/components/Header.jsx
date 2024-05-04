@@ -1,3 +1,8 @@
+/**
+ * @module Header
+ * @description header component that has navigation links
+ */
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -42,6 +47,11 @@ function Header() {
           <li className="mr-6">
             <NavLink to="/singlepageform" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
               Single Page Form
+            </NavLink>
+          </li>
+          <li className="mr-6">
+            <NavLink to="/test" className={({ isActive }) => isActive ? "text-blue-300 hover:text-blue-200" : "hover:text-blue-200"}>
+              test
             </NavLink>
           </li>
         </ul>

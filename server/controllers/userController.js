@@ -155,7 +155,7 @@ userController.loginUser = async (req, res, next) => {
   try {
 
     const query = `
-      SELECT roles, password, email, username, user_id, profile_image 
+      SELECT roles, password, email, username, user_id, profile_image, firstname, lastname 
       FROM users 
       WHERE email = $1;
     `
@@ -178,9 +178,11 @@ userController.loginUser = async (req, res, next) => {
         username: result.rows[0].username,
         roles: result.rows[0].roles,
         user_id: result.rows[0].user_id,
-        profile_image: result.rows[0].profile_image
+        profile_image: result.rows[0].profile_image,
+        firstname: result.rows[0].firstname,
+        lastname: result.rows[0].lastname
       };
-
+      console.log( "LOGGED IN:", userInfo )
       return res.status(200).json({ userInfo, token });
 
     } else {
