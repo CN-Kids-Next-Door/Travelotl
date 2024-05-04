@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Logo from '../assets/Travelotl_Logo.png';
+import Logo from '../assets/Travelotl_Logo_normal.png';
 import travelVideo from '../assets/AdobeStock_118726863_travel_Preview.mp4';
 import Header from './Header.jsx';
 

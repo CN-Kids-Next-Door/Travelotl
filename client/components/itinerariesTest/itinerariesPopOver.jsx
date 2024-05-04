@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import Logo from './../../assets/Travelotl_Logo.png';
+import Logo from './../../assets/Travelotl_Logo_normal.png';
 
 export default function itinerariesPopOver({ user, userNavigation, navigation, classNames }) {
   return (

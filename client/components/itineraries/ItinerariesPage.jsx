@@ -34,6 +34,7 @@ const ItinerariesPage = () => {
 
   return(
     <div>
+            <Header />
       <div className="itinerary-page">
         <ItinerariesList itineraries={itineraries} />
       </div>

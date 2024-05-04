@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import Logo from './../../assets/Travelotl_Logo.png';
+import Logo from './../../assets/Travelotl_Logo_normal.png';
 import DesktopProfile from './trashcan/DesktopProfile.jsx';
 import MobileProfile from './MobileProfile.jsx';
 import UniformProfile from './trashcan/UniformProfile.jsx';
