@@ -34,7 +34,7 @@ const Main = () => {
         <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[325px] flex flex-col items-center justify-center">
           <button style={{textShadow: 
               '1px 0 0 black, 0 1px 0 black, -1px 0 0 black, 0 -1px 0 black', borderRadius:'25%',border:'solid grey 1px' }} className="mt-10 font-montserrat relative top-[13em] shadow-2xl hover:scale-125
-                hover:bg-opacity-50 shadow-white z-30 p-5 text-xl text-white bg-blue-300 bg-opacity-70 rounded-xl"
+                hover:bg-opacity-50 shadow-white z-30 p-5 text-xl text-blue bg-blue-300 bg-opacity-70 rounded-xl"
               onClick={loginPageClick}>
               Click here to begin your adventure!
           </button>
