@@ -37,7 +37,7 @@ const Login = ({ toggle }) => {
       
       console.log('Login successful', payload );
       // Check for ok response and redirect back to main
-      navigate('/form');
+      navigate('/itinerarieswelcome');
 
       } catch ( err ) {
         console.error('Login failed:', err);
@@ -86,8 +86,6 @@ const Login = ({ toggle }) => {
   function logIn () {
       window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID)
   }
-<<<<<<< HEAD
-=======
   function registerGH() {
       window.location.assign("")
   };
@@ -100,7 +98,6 @@ const Login = ({ toggle }) => {
       document.getElementById('passwordImage').setAttribute('src', 'https://media.geeksforgeeks.org/wp-content/uploads/20210917145551/eye.png')
     }
   };
->>>>>>> decaa374d73e9a0e22696c28835c35442d8987f7
     return (
 <div className="min-h-screen flex justify-center items-center bg-cover bg-center p-4" style={{ backgroundImage: 'url(path_to_your_image.jpg)' }}>
   {/* <div className="absolute inset-0 bg-white bg-opacity-90"></div>  Overlay for opacity */}

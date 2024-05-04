@@ -18,7 +18,7 @@ import SuccessGit from './components/success.jsx';
 
 import ItinerariesWelcome from './components/ItinerariesWelcome/ItinerariesWelcome.jsx';
 
-import NewItineraryForm from './components/formPages/NewItineraryForm.jsx';
+import NewItineraryForm from './components/ItinerariesWelcome/formPages/NewItineraryForm.jsx';
 import Test from './components/itinerariesTest/Test.jsx';
 
 const App = () => {
