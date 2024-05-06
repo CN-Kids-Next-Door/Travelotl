@@ -54,10 +54,22 @@ const TripForm = ({ onSubmit, loading }) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-//connect form data to backend
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFields()) {
+            const {
+                itineraryName,
+                fromLocation,
+                destination,
+                budget,
+                startDate,
+                endDate,
+                groupDescription,
+                travelers,
+                activities
+            } = formState;
+
             const formData = {
                 itineraryName,
                 fromLocation,
@@ -69,7 +81,8 @@ const TripForm = ({ onSubmit, loading }) => {
                 travelers,
                 activities
             };
-            console.log('form data:', formData)
+
+            console.log('form data:', formData);
             onSubmit(formData);
         }
     };
@@ -155,7 +168,7 @@ const TripForm = ({ onSubmit, loading }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="endDate" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">End Date:</label>
+                        <label htmlFor="endDate" class="block text-sm font-montserrat font-medium text-gray-800 mb-2">End Date:</label>
                         <input
                             id="endDate"
                             name="endDate"
@@ -170,7 +183,7 @@ const TripForm = ({ onSubmit, loading }) => {
 
                 {/* Travelers, Budget, and Group */}
                 <div className="mb-6 grid font-montserrat grid-cols-4 gap-4">
-                    {/* Travelers - Takes up A (1 out of 4 columns) */}
+                    {/* Travelers */}
                     <div>
                         <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Travelers:</label>
                         <div className="flex mt-1">
@@ -186,9 +199,9 @@ const TripForm = ({ onSubmit, loading }) => {
                         </div>
                     </div>
 
-                    {/* Budget and Group - Takes up 3A (3 out of 4 columns) */}
+                    {/* Budget and Group */}
                     <div className="grid grid-cols-5 font-montserrat gap-4 col-span-3">
-                        {/* Budget - 2/5 of 3A */}
+                        {/* Budget */}
                         <div className="col-span-2">
                             <label className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Budget:</label>
                             <div className="flex mt-1">
@@ -204,7 +217,7 @@ const TripForm = ({ onSubmit, loading }) => {
                             </div>
                         </div>
 
-                        {/* Group - 3/5 of 3A */}
+                        {/* Group */}
                         <div className="col-span-3">
                             <label htmlFor="groupDescription" className="block text-sm font-montserrat font-medium text-gray-800 mb-2">Group:</label>
                             <select
